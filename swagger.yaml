@@ -5,9 +5,27 @@ info:
   version: 1.0.0
   
 security:
-   - bearerAuth: []
+  - bearerAuth: []
   
 paths:
+  
+  "/currentSprint":
+    get:
+      operationId: currentSprint
+      summary: Get current sprint
+      description: |
+        Gets Forecast current sprint
+      tags:
+        - CurrentSprint
+      responses:
+        "200":
+          description: Current sprint object
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CurrentSprint"
   
   "/allocations":
     get:
@@ -17,6 +35,33 @@ paths:
         Lists Forecast allocations
       tags:
         - Allocations
+      parameters:
+        - name: personId
+          required: false
+          in: query
+          description: Retrieve allocations for person
+          schema:
+            type: integer
+        - name: projectId
+          required: false
+          in: query
+          description: Retrieve allocations for project
+          schema:
+            type: integer
+        - name: startDate
+          required: true
+          in: query
+          description: Retrieve allocations after given date
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          required: true
+          in: query
+          description: Retrieve allocations before given date
+          schema:
+            type: string
+            format: date
       responses:
         "200":
           description: A list of Forecast allocations
@@ -35,6 +80,21 @@ paths:
         Lists Forecast projects
       tags:
         - Projects
+      parameters:
+        - name: startDate
+          required: true
+          in: query
+          description: Retrieve allocations after given date
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          required: true
+          in: query
+          description: Retrieve allocations before given date
+          schema:
+            type: string
+            format: date
       responses:
         "200":
           description: A list of Forecast projects
@@ -45,24 +105,24 @@ paths:
                 items: 
                   $ref: "#/components/schemas/Projects"
   
-  "/tasks/{projectId}":
+  "/tasks":
     get:
-      operationId: listProjectTasks
-      summary: Lists Forecast project tasks
+      operationId: listTasks
+      summary: Lists Forecast tasks
       description: |
-        Lists Forecast project tasks
+        Lists Forecast tasks
       tags:
         - Tasks
       parameters:
         - name: projectId
-          required: true
-          in: path
+          required: false
+          in: query
           description: Forecast project id
           schema:
             type: integer
       responses:
         "200":
-          description: A list of Forecast project tasks
+          description: A list of Forecast tasks
           content:
             application/json;charset=utf-8:
               schema:
@@ -81,9 +141,24 @@ components:
       bearerFormat: JWT
       
   schemas:
+    CurrentSprint:
+      type: object
+      description: Current sprint data from Forecast API
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        startDate: 
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+      
     Allocations:
       type: object
-      description: Allocation data from Forecast Api
+      description: Allocation data from Forecast API
       properties:
         id:
           type: integer
@@ -128,8 +203,6 @@ components:
         endDate:
           type: string
           format: date
-        status:
-          type: string
           
     Tasks:
       type: object
@@ -141,7 +214,7 @@ components:
           type: string
         description:
           type: string
-        project_id:
+        projectId:
           type: integer
         remaining:
           type: integer
