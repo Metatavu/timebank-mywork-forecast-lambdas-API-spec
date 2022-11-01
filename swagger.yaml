@@ -1,0 +1,159 @@
+openapi: 3.0.3
+info:
+  title: Timebank MyWork Forecast lambda functions
+  description: Timebank MyWork Forecast lambda functions
+  version: 1.0.0
+  
+security:
+   - bearerAuth: []
+  
+paths:
+  
+  "/allocations":
+    get:
+      operationId: listAllocations
+      summary: Lists Forecast allocations
+      description: |
+        Lists Forecast allocations
+      tags:
+        - Allocations
+      responses:
+        "200":
+          description: A list of Forecast allocations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Allocations"
+
+  "/projects":
+    get:
+      operationId: listProjects
+      summary: Lists Forecast projects
+      description: |
+        Lists Forecast projects
+      tags:
+        - Projects
+      responses:
+        "200":
+          description: A list of Forecast projects
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items: 
+                  $ref: "#/components/schemas/Projects"
+  
+  "/tasks/{projectId}":
+    get:
+      operationId: listProjectTasks
+      summary: Lists Forecast project tasks
+      description: |
+        Lists Forecast project tasks
+      tags:
+        - Tasks
+      parameters:
+        - name: projectId
+          required: true
+          in: path
+          description: Forecast project id
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A list of Forecast project tasks
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tasks"
+  
+   
+
+components:
+      
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      
+  schemas:
+    Allocations:
+      type: object
+      description: Allocation data from Forecast Api
+      properties:
+        id:
+          type: integer
+        project:
+          type: integer
+        person: 
+          type: integer
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        monday:
+          type: integer
+        tuesday:
+          type: integer
+        wednesday:
+          type: integer
+        thursday:
+          type: integer
+        friday:
+          type: integer
+        saturday:
+          type: integer
+        sunday:
+          type: integer
+        notes:
+          type: string
+          
+    Projects:
+      type: object
+      description: Project data from Forecast API
+      properties:
+        id: 
+          type: integer
+        name:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        status:
+          type: string
+          
+    Tasks:
+      type: object
+      description: Project task data from Forecast API
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        project_id:
+          type: integer
+        remaining:
+          type: integer
+        estimate:
+          type: integer
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        assignedPersons:
+          type: array
+          items: 
+            type: integer
