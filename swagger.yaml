@@ -9,24 +9,6 @@ security:
   
 paths:
   
-  "/currentSprint":
-    get:
-      operationId: currentSprint
-      summary: Get current sprint
-      description: |
-        Gets Forecast current sprint
-      tags:
-        - CurrentSprint
-      responses:
-        "200":
-          description: Current sprint object
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/CurrentSprint"
-  
   "/allocations":
     get:
       operationId: listAllocations
@@ -49,14 +31,14 @@ paths:
           schema:
             type: integer
         - name: startDate
-          required: true
+          required: false
           in: query
           description: Retrieve allocations after given date
           schema:
             type: string
             format: date
         - name: endDate
-          required: true
+          required: false
           in: query
           description: Retrieve allocations before given date
           schema:
@@ -82,14 +64,14 @@ paths:
         - Projects
       parameters:
         - name: startDate
-          required: true
+          required: false
           in: query
           description: Retrieve allocations after given date
           schema:
             type: string
             format: date
         - name: endDate
-          required: true
+          required: false
           in: query
           description: Retrieve allocations before given date
           schema:
@@ -104,6 +86,31 @@ paths:
                 type: array
                 items: 
                   $ref: "#/components/schemas/Projects"
+                  
+  "/projects/{projectId}/sprints":
+    get:
+      operationId: listProjectSprints
+      summary: List project sprints
+      description: |
+        Lists Forecast project sprint
+      tags:
+        - projectSprints
+      parameters:
+      - name: projectId
+        required: true
+        in: path
+        description: Forecast project id
+        schema:
+            type: integer
+      responses:
+        "200":
+          description: A list of project sprints
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Sprints"
   
   "/tasks":
     get:
@@ -112,7 +119,7 @@ paths:
       description: |
         Lists Forecast tasks
       tags:
-        - Tasks
+        - ProjectTasks
       parameters:
         - name: projectId
           required: false
@@ -129,9 +136,32 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Tasks"
-  
-   
 
+  "/timeEntries":
+    get:
+      operationId: listTimeEntries
+      summary: List time entries
+      description: |
+        Lists Forecast project time entries
+      tags:
+        - timeEntries
+      parameters:
+      - name: projectId
+        required: false
+        in: query
+        description: Forecast project id
+        schema:
+            type: integer
+      responses:
+        "200":
+          description: A list of time entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TimeEntries"
+  
 components:
       
   securitySchemes:
@@ -141,20 +171,6 @@ components:
       bearerFormat: JWT
       
   schemas:
-    CurrentSprint:
-      type: object
-      description: Current sprint data from Forecast API
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        startDate: 
-          type: string
-          format: date
-        endDate:
-          type: string
-          format: date
       
     Allocations:
       type: object
@@ -226,7 +242,39 @@ components:
         endDate:
           type: string
           format: date
+        highPriority:
+          type: boolean
         assignedPersons:
           type: array
           items: 
             type: integer
+            
+    Sprints:
+      type: object
+      description: Project sprint data from Forecast API
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        startDate: 
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+          
+    TimeEntries:
+      type: object
+      description: Project time entries from Forecast API
+      properties:
+        id: 
+          type: integer
+        person:
+          type: integer
+        project:
+          type: integer
+        task:
+          type: integer
+        timeRegistered:
+          type: integer
