@@ -147,7 +147,7 @@ paths:
         - timeEntries
       parameters:
       - name: projectId
-        required: false
+        required: true
         in: query
         description: Forecast project id
         schema:
