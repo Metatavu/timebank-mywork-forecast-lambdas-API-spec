@@ -3,12 +3,11 @@ info:
   title: Timebank MyWork Forecast lambda functions
   description: Timebank MyWork Forecast lambda functions
   version: 1.0.0
-  
+
 security:
-   - bearerAuth: []
-  
+  - bearerAuth: []
+
 paths:
-  
   "/allocations":
     get:
       operationId: listAllocations
@@ -42,9 +41,9 @@ paths:
             application/json;charset=utf-8:
               schema:
                 type: array
-                items: 
+                items:
                   $ref: "#/components/schemas/Projects"
-  
+
   "/tasks/{projectId}":
     get:
       operationId: listProjectTasks
@@ -69,17 +68,180 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Tasks"
-  
-   
+
+  "/salesLeads":
+    get:
+      operationId: getAllLeads
+      summary: Lists all Leads
+      description: |
+        Lists Leads from Pipedrive
+      tags:
+        - Leads
+      responses:
+        "200":
+          description: Lists Leads from Pipedrive
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Leads"
+  "/salesDeals":
+    get:
+      operationId: getAllDeals
+      summary: Lists all open Deals
+      description: |
+        Lists Deals from Pipedrive
+      tags:
+        - Deals
+      responses:
+        "200":
+          description: Lists open Deals from Pipedrive
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Deals"
+
+  "/salesDealsWon":
+    get:
+      operationId: getAllDealswon
+      summary: Lists all won Deals
+      description: |
+        Lists won Deals from Pipedrive
+      tags:
+        - Deals
+      responses:
+        "200":
+          description: Lists won Deals from Pipedrive
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Deals"
+
+  "/getLeadOrDealById/{rowtype}/{id}":
+    get:
+      operationId: getDealById
+      summary: List any salesProject (lead or deal) by id
+      tags:
+        - LeadOrDealById
+      description: |
+        List salesproject with the id
+      parameters:
+        - name: rowtype
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A list of all salesProjects
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LeadOrDeal"
+
+  "/addDealInterest/{id}":
+    put:
+      summary: Add deal interest by ID
+      tags:
+        - Interest
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interests"
+
+  "/addLeadInterest/{id}":
+    patch:
+      summary: Add lead interest by ID
+      tags:
+        - Interest
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interests"
+
+  "/removeDealInterest/{id}":
+    put:
+      summary: Remove deal interest by ID
+      tags:
+        - Interest
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interests"
+
+  "/removeLeadInterest/{id}":
+    patch:
+      summary: Remove lead interest by ID
+      tags:
+        - Interest
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interests"
 
 components:
-      
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      
+
   schemas:
     Allocations:
       type: object
@@ -89,7 +251,7 @@ components:
           type: integer
         project:
           type: integer
-        person: 
+        person:
           type: integer
         startDate:
           type: string
@@ -113,12 +275,12 @@ components:
           type: integer
         notes:
           type: string
-          
+
     Projects:
       type: object
       description: Project data from Forecast API
       properties:
-        id: 
+        id:
           type: integer
         name:
           type: string
@@ -130,7 +292,7 @@ components:
           format: date
         status:
           type: string
-          
+
     Tasks:
       type: object
       description: Project task data from Forecast API
@@ -155,5 +317,116 @@ components:
           format: date
         assignedPersons:
           type: array
-          items: 
+          items:
             type: integer
+
+    Leads:
+      type: object
+      description: Lead data from Pipedrive API
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        interested:
+          type: string
+          description: "Might need to be changed to Pipedrive API item-key"
+        usedTech:
+          type: string
+          description: "Might need to be changed to Pipedrive API item-key"
+        add_time:
+          type: string
+          format: date-time
+        update_time:
+          type: string
+          format: date-time
+        next_activity_date:
+          type: string
+          format: date-time
+        label_ids:
+          type: array
+          items:
+            type: string
+    Deals:
+      type: object
+      description: Deal data from Pipedrive API
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        interested:
+          type: string
+          description: "Might need to be changed to Pipedrive API item-key"
+        usedTech:
+          type: string
+          description: "Might need to be changed to Pipedrive API item-key"
+        value:
+          type: number
+        currency:
+          type: string
+        add_time:
+          type: string
+          format: date-time
+        update_time:
+          type: string
+          format: date-time
+        next_activity_date:
+          type: string
+          format: date-time
+        status:
+          type: string
+        next_activity_subject:
+          type: string
+        next_activity_note:
+          type: string
+
+    LeadOrDeal:
+      type: object
+      description: Used when user clicks to see more data from lead or deal. Lead or Deal data from Pipedrive API.
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        interested:
+          type: string
+          description: "Might need to be changed to Pipedrive API item-key"
+        usedTech:
+          type: string
+          description: "Might need to be changed to Pipedrive API item-key"
+        add_time:
+          type: string
+          format: date-time
+        update_time:
+          type: string
+          format: date-time
+        next_activity_date:
+          type: string
+          format: date-time
+        status:
+          type: string
+          description: "Added from Deal"
+        next_activity_subject:
+          type: string
+        next_activity_note:
+          type: string
+        value:
+          type: number
+          description: "Added from Deal"
+        currency:
+          type: string
+          description: "Added from Deal"
+        label_ids:
+          type: array
+          items:
+            type: string
+          description: "Added from Lead"
+
+    Interests:
+      type: object
+      description: Adding or removing interest to Pipedrive API
+      properties:
+        pipedrive-interest-key-here:
+          type: string
+          description: "Name might need to be changed to Pipedrive API item-key"
