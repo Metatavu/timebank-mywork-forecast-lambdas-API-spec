@@ -106,7 +106,7 @@ paths:
 
   "/salesDealsWon":
     get:
-      operationId: getAllDealswon
+      operationId: listDealsWon
       summary: Lists all won Deals
       description: |
         Lists won Deals from Pipedrive
