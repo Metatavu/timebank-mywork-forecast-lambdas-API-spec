@@ -88,7 +88,7 @@ paths:
                   $ref: "#/components/schemas/Leads"
   "/salesDeals":
     get:
-      operationId: getAllDeals
+      operationId: listDeals
       summary: Lists all open Deals
       description: |
         Lists Deals from Pipedrive
