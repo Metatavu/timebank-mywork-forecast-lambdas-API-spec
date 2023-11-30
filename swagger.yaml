@@ -423,7 +423,7 @@ components:
             type: string
           description: "Added from Lead"
 
-    Interests:
+    Interest:
       type: object
       description: Adding or removing interest to Pipedrive API
       properties:
