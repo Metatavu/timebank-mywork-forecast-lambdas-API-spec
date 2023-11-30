@@ -151,13 +151,13 @@ paths:
                 items:
                   $ref: "#/components/schemas/LeadOrDeal"
 
-  "/addDealInterest/{id}":
+  "/addDealInterest/{dealId}":
     put:
       summary: Add deal interest by ID
       tags:
         - Interest
       parameters:
-        - name: id
+        - name: dealId
           in: path
           required: true
           schema:
@@ -172,7 +172,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Interests"
 
-  "/addLeadInterest/{id}":
+  "/addLeadInterest/{leadId}":
     patch:
       summary: Add lead interest by ID
       tags:
@@ -193,13 +193,13 @@ paths:
                 items:
                   $ref: "#/components/schemas/Interests"
 
-  "/removeDealInterest/{id}":
+  "/removeDealInterest/{dealId}":
     put:
       summary: Remove deal interest by ID
       tags:
         - Interest
       parameters:
-        - name: id
+        - name: dealId
           in: path
           required: true
           schema:
@@ -214,7 +214,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Interests"
 
-  "/removeLeadInterest/{id}":
+  "/removeLeadInterest/{leadId}":
     patch:
       summary: Remove lead interest by ID
       tags:
@@ -320,7 +320,7 @@ components:
           items:
             type: integer
 
-    Leads:
+    Lead:
       type: object
       description: Lead data from Pipedrive API
       properties:
@@ -347,7 +347,7 @@ components:
           type: array
           items:
             type: string
-    Deals:
+    Deal:
       type: object
       description: Deal data from Pipedrive API
       properties:
