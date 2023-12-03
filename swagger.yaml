@@ -394,6 +394,8 @@ components:
         - title
         - interested
         - usedTech
+        - value
+        - currency
         - addTime
         - updateTime
         - nextActivityDate
