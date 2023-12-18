@@ -104,7 +104,7 @@ paths:
           description: Pipedrive Deal status    
       responses:
         "200":
-          description: Lists open Deals from Pipedrive
+          description: Lists Deals from Pipedrive
           content:
             application/json;charset=utf-8:
               schema:
@@ -126,10 +126,10 @@ paths:
           required: true
           schema:
             type: string
-          description: Leas Id used to identify a pipedrive lead
+          description: Lead Id used to identify a pipedrive lead
       responses:
         "200":
-          description: Get more data of a lead 
+          description: Successful operation
           content:
             application/json;charset=utf-8:
               schema:
@@ -154,7 +154,7 @@ paths:
           description: Deal Id used to identify a pipedrive deal
       responses:
         "200":
-          description: Get more data of a deal 
+          description: Successful operation
           content:
             application/json;charset=utf-8:
               schema:
@@ -365,10 +365,10 @@ components:
           description: Title or a Name of a Lead
         interested:
           type: string
-          description: String where userIds are stored separeted with semicolon.
+          description: String where userIds are stored separated with semicolon.
         usedTech:
           type: string
-          description: String where usedTech are stored separeted with semicolon.
+          description: String where usedTech are stored separated with semicolon.
         addTime:
           type: string
           format: date-time
@@ -386,6 +386,7 @@ components:
           items:
             type: string
           description: String array where Lead labels are stored. labelIds are 'Hot', 'Warm' or 'Cold'
+
     Deal:
       type: object
       description: Deal data from Pipedrive API
@@ -411,10 +412,10 @@ components:
           description: Title or a Name of a Deal
         interested:
           type: string
-          description: String where userIds are stored separeted with semicolon.
+          description: String where userIds are stored separated with semicolon.
         usedTech:
           type: string
-          description: String where usedTech are stored separeted with semicolon.
+          description: String where usedTech are stored separated with semicolon.
         value:
           type: number
           description: Value of a deal
