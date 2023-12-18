@@ -1,14 +1,13 @@
 openapi: 3.0.3
 info:
-  title: Timebank MyWork Forecast lambda functions
-  description: Timebank MyWork Forecast lambda functions
+  title: Metatavu Home lambdas
+  description: Metatavu Home lambdas
   version: 1.0.0
-  
+
 security:
-   - bearerAuth: []
-  
+  - bearerAuth: []
+
 paths:
-  
   "/allocations":
     get:
       operationId: listAllocations
@@ -42,9 +41,9 @@ paths:
             application/json;charset=utf-8:
               schema:
                 type: array
-                items: 
+                items:
                   $ref: "#/components/schemas/Projects"
-  
+
   "/tasks/{projectId}":
     get:
       operationId: listProjectTasks
@@ -69,17 +68,203 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Tasks"
-  
-   
+
+  "/salesLeads":
+    get:
+      operationId: listSalesLeads
+      summary: Lists all Leads from Pipedrive
+      description: |
+        Lists Leads from Pipedrive
+      tags:
+        - Leads
+      responses:
+        "200":
+          description: Lists Leads from Pipedrive
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Lead"
+
+  "/salesDeals/{status}":
+    get:
+      operationId: listSalesDeals
+      summary: Lists all Deals from Pipedrive
+      description: |
+        Lists open Deals from Pipedrive
+      tags:
+        - Deals
+      parameters:
+        - name: status
+          in: path
+          required: true
+          schema:
+            type: string  
+          description: Pipedrive Deal status    
+      responses:
+        "200":
+          description: Lists Deals from Pipedrive
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Deal"
+
+  "/getLeadById/{leadId}":
+    get:
+      operationId: getLeadById
+      summary: List lead data by id from Pipedrive 
+      tags:
+        - LeadById
+      description: |
+        Get more data of a lead by id from Pipedrive
+      parameters:
+        - name: leadId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Lead Id used to identify a pipedrive lead
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Lead"
+
+  "/getDealById/{dealId}":
+    get:
+      operationId: getDealById
+      summary: List deal data by id from Pipedrive 
+      tags:
+        - DealById
+      description: |
+        Get more data of a deal by id from Pipedrive
+      parameters:
+        - name: dealId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Deal Id used to identify a pipedrive deal
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Deal"
+
+  "/addDealInterest/{dealId}":
+    put:
+      summary: Add interest to a Pipedrive deal
+      description: |
+        Updates string where deal interests are stored in Pipedrive
+      tags:
+        - Interest
+      parameters:
+        - name: dealId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Deal Id used to identify a deal where the interest is updated
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interest"
+
+  "/addLeadInterest/{leadId}":
+    patch:
+      summary: Add interest to a Pipedrive lead
+      description: |
+        Updates string where lead interests are stored in Pipedrive
+      tags:
+        - Interest
+      parameters:
+        - name: leadId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: LeadId used to identify a lead where the interest is updated
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interest"
+
+  "/removeDealInterest/{dealId}":
+    put:
+      summary: Remove interest to a Pipedrive deal
+      description: |
+        Updates string where intrests are stored in Pipedrive
+      tags:
+        - Interest
+      parameters:
+        - name: dealId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Deal Id used to identify a deal where the interest is updated
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interest"
+
+  "/removeLeadInterest/{leadId}":
+    patch:
+      summary: Remove interest to a Pipedrive lead
+      description: |
+        Updates string where intrests are stored in Pipedrive
+      tags:
+        - Interest
+      parameters:
+        - name: leadId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: LeadId used to identify a lead where the interest is updated
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interest"
 
 components:
-      
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      
+
   schemas:
     Allocations:
       type: object
@@ -89,7 +274,7 @@ components:
           type: integer
         project:
           type: integer
-        person: 
+        person:
           type: integer
         startDate:
           type: string
@@ -113,12 +298,12 @@ components:
           type: integer
         notes:
           type: string
-          
+
     Projects:
       type: object
       description: Project data from Forecast API
       properties:
-        id: 
+        id:
           type: integer
         name:
           type: string
@@ -130,7 +315,7 @@ components:
           format: date
         status:
           type: string
-          
+
     Tasks:
       type: object
       description: Project task data from Forecast API
@@ -155,5 +340,116 @@ components:
           format: date
         assignedPersons:
           type: array
-          items: 
+          items:
             type: integer
+
+    Lead:
+      type: object
+      description: Lead data from Pipedrive API
+      required:
+        - leadId
+        - title
+        - interested
+        - usedTech
+        - addTime
+        - updateTime
+        - nextActivityDate
+        - labelIds
+      properties:
+        leadId:
+          type: string
+          format: uuid
+          description: LeadId is used to identify projects
+        title:
+          type: string
+          description: Title or a Name of a Lead
+        interested:
+          type: string
+          description: String where userIds are stored separated with semicolon.
+        usedTech:
+          type: string
+          description: String where usedTech are stored separated with semicolon.
+        addTime:
+          type: string
+          format: date-time
+          description: Time when Lead is created or added to Pipedrive
+        updateTime:
+          type: string
+          format: date-time
+          description: Time when Lead is last updated to Pipedrive
+        nextActivityDate:
+          type: string
+          format: date-time
+          description: Time when next activity is going to happen on a Lead
+        labelIds:
+          type: array
+          items:
+            type: string
+          description: String array where Lead labels are stored. labelIds are 'Hot', 'Warm' or 'Cold'
+
+    Deal:
+      type: object
+      description: Deal data from Pipedrive API
+      required:
+        - dealId
+        - title
+        - interested
+        - usedTech
+        - value
+        - currency
+        - addTime
+        - updateTime
+        - nextActivityDate
+        - nextActivitySubject
+        - nextActivityNote
+        - status
+      properties:
+        dealId:
+          type: integer
+          description: DealId is used to identify projects
+        title:
+          type: string
+          description: Title or a Name of a Deal
+        interested:
+          type: string
+          description: String where userIds are stored separated with semicolon.
+        usedTech:
+          type: string
+          description: String where usedTech are stored separated with semicolon.
+        value:
+          type: number
+          description: Value of a deal
+        currency:
+          type: string
+          description: Currency that is used to tell the value of a deal
+        addTime:
+          type: string
+          format: date-time
+          description: Time when Deal is created or added to Pipedrive
+        updateTime:
+          type: string
+          format: date-time
+          description: Time when Deal is last updated to Pipedrive
+        nextActivityDate:
+          type: string
+          format: date-time
+          description: Time when next activity is going to happen on a Deal
+        nextActivitySubject:
+          type: string
+          description: Used to tell the subject of a next activity. 
+        nextActivityNote:
+          type: string
+          description: Holds more information about the next activity. 
+        status:
+          type: string
+          description: Status of a Deal. Is the deal open, lost or won
+
+    Interest:
+      type: object
+      description: Adding or removing interest to Pipedrive API
+      required:
+        - interest
+      properties:
+        interest:
+          type: string
+          description: String where userIds are stored separated with semicolon.
