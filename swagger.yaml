@@ -261,9 +261,8 @@ paths:
   "/on-call":
     get:
       operationId: listOnCallData
-      summary: Loads on call personnel list from S3
-      description: |
-        Loads on call personnel list from S3
+      summary: Lists on call personnel data from S3
+      description: Lists on call personnel data from S3
       tags:
         - On call
       parameters:
@@ -275,7 +274,7 @@ paths:
           description: Selected year for on call entries
       responses:
         "200":
-          description: A list of on call personnel of a selected year
+          description: A list of on call personnel for a selected year
           content:
             application/json;charset=utf-8:
               schema:
@@ -289,8 +288,7 @@ paths:
     post:
       operationId: updatePaid
       summary: Updates payment status for an on call period
-      description: |
-        Updates payment status for an on call period
+      description: Updates payment status for an on call period
       tags:
         - On call
       requestBody:
