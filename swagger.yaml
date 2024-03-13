@@ -173,8 +173,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string  
-          description: Pipedrive Deal status    
+            type: string
+          description: Pipedrive Deal status
       responses:
         "200":
           description: Lists Deals from Pipedrive
@@ -188,7 +188,7 @@ paths:
   "/getLeadById/{leadId}":
     get:
       operationId: getLeadById
-      summary: List lead data by id from Pipedrive 
+      summary: List lead data by id from Pipedrive
       tags:
         - LeadById
       description: |
@@ -213,7 +213,7 @@ paths:
   "/getDealById/{dealId}":
     get:
       operationId: getDealById
-      summary: List deal data by id from Pipedrive 
+      summary: List deal data by id from Pipedrive
       tags:
         - DealById
       description: |
@@ -330,6 +330,50 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Interest"
+
+  "/on-call":
+    get:
+      operationId: listOnCallData
+      summary: Lists on call personnel data from S3
+      description: Lists on call personnel data from S3
+      tags:
+        - On call
+      parameters:
+        - name: year
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Selected year for on call entries
+      responses:
+        "200":
+          description: A list of on call personnel for a selected year
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OnCall"
+        default:
+          description: Invalid or missing year
+
+  "/update-paid":
+    post:
+      operationId: updatePaid
+      summary: Updates payment status for an on call period
+      description: Updates payment status for an on call period
+      tags:
+        - On call
+      requestBody:
+        description: On-call week status to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OnCall"
+      responses:
+        "200":
+          description: Paid status updated
 
 components:
   securitySchemes:
@@ -524,10 +568,10 @@ components:
           description: Time when next activity is going to happen on a Deal
         nextActivitySubject:
           type: string
-          description: Used to tell the subject of a next activity. 
+          description: Used to tell the subject of a next activity.
         nextActivityNote:
           type: string
-          description: Holds more information about the next activity. 
+          description: Holds more information about the next activity.
         status:
           type: string
           description: Status of a Deal. Is the deal open, lost or won
@@ -541,3 +585,21 @@ components:
         interest:
           type: string
           description: String where userIds are stored separated with semicolon.
+
+    OnCall:
+      type: object
+      description: On-call data from AWS S3
+      required:
+        - year
+        - week
+        - paid
+      properties:
+        year:
+          type: string
+          description: Selected year of on call entries
+        week:
+          type: string
+          description: Selected week of on call entries
+        paid:
+          type: boolean
+          description: Status of on call week payment
