@@ -102,9 +102,15 @@ paths:
         - Tasks
       parameters:
         - name: projectId
-          required: true
+          required: false
           in: query
           description: Forecast project id
+          schema:
+            type: integer
+        - name: personId
+          required: false
+          in: query
+          description: Forecast person id
           schema:
             type: integer
       responses:
@@ -122,7 +128,7 @@ paths:
       operationId: listProjectTimeEntries
       summary: Lists Forecast project time entries
       description: |
-        Lists Forecast project time entries
+        Lists Forecast project time entries filtered by sprint dates and task 
       tags:
         - Time entries
       parameters:
@@ -132,6 +138,26 @@ paths:
           description: Forecast project id
           schema:
             type: integer
+        - name: startDate
+          required: false
+          in: query
+          description: Start date of sprint
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          required: false
+          in: query
+          description: End date of sprint
+          schema:
+            type: string
+            format: date
+        - name: taskId
+          required: false
+          in: query
+          description: Task id
+          schema:
+            type: string
       responses:
         "200":
           description: A list of Forecast project time entries
@@ -430,6 +456,9 @@ components:
           type: string
         stage:
           type: string
+        color:
+          type: string
+          example: "#000000"
 
     Tasks:
       type: object
@@ -474,6 +503,9 @@ components:
           type: integer
         timeRegistered:
           type: integer
+        date:
+          type: string
+          format: date
 
     Lead:
       type: object
