@@ -450,7 +450,7 @@ components:
       description: Project data time entries from Forecast API
       properties:
         id:
-          type: integerP
+          type: integer
         person:
           type: integer
         project:
