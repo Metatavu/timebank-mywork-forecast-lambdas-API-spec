@@ -88,14 +88,10 @@ paths:
           content:
             application/json;charset=utf-8:
               schema:
-                oneOf:
-                  - $ref: "#/components/schemas/Projects"
-                  - type: array
-                    items:
-                      $ref: "#/components/schemas/Projects"
+                type: array
+                items:
+                  $ref: "#/components/schemas/Projects"
                   
-                  
-
   "/tasks":
     get:
       operationId: listProjectTasks
@@ -171,6 +167,32 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Time-entries"
+
+  "/slack-avatar":
+    get:
+      operationId: getSlackUserAvatar
+      summary: Get person slack avatar
+      description: |
+        Get slack avatar
+      tags:
+        - Slack avatar
+      parameters:
+        - name: email
+          required: true
+          in: query
+          description: Person email
+          schema:
+            type: string
+            format: email
+      responses:
+        "200":
+          description: Avatar images
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schemas/Slack-avatar"
 
   "/salesLeads":
     get:
@@ -510,6 +532,17 @@ components:
         date:
           type: string
           format: date
+
+    Slack-avatar:
+      type: object
+      description: Project data time entries from Forecast API
+      properties:
+        image_original:
+          type: string
+        image_24:
+          type: string
+        image_32:
+          type: string
 
     Lead:
       type: object
