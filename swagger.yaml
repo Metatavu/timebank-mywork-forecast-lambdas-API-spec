@@ -190,9 +190,7 @@ paths:
           content:
             application/json;charset=utf-8:
               schema:
-                type: object
-                items:
-                  $ref: "#/components/schemas/Slack-avatar"
+                $ref: "#/components/schemas/Slack-avatar"
 
   "/salesLeads":
     get:
