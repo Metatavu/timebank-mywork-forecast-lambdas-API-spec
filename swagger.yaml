@@ -489,6 +489,10 @@ components:
           type: array
           items:
             type: integer
+        status:
+          type: string
+        statusCategory:
+          type: string
 
     Time-entries:
       type: object
