@@ -402,6 +402,98 @@ paths:
         "200":
           description: Paid status updated
 
+  "/software":
+    get:
+      summary: Get all software entries
+      description: Retrieve a list of all software entries in the registry.
+      responses:
+        '200':
+          description: A list of software entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SoftwareRegistry'
+
+    post:
+      summary: Register new software
+      description: Register a new software entry in the registry.
+      requestBody:
+        description: Software entry to register
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SoftwareRegistry'
+      responses:
+        '201':
+          description: Software entry created successfully
+        '400':
+          description: Bad request, software entry already exists or invalid data
+
+  "/software/{id}":
+    get:
+      summary: Get software by ID
+      description: Retrieve a software entry by its unique identifier.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the software entry to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Software entry retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SoftwareRegistry'
+        '404':
+          description: Software entry not found
+
+    put:
+      summary: Update software entry
+      description: Update an existing software entry in the registry.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the software entry to update
+          schema:
+            type: string
+      requestBody:
+        description: Updated software entry
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SoftwareRegistry'
+      responses:
+        '200':
+          description: Software entry updated successfully
+        '400':
+          description: Bad request, invalid data
+        '404':
+          description: Software entry not found
+
+    delete:
+      summary: Delete software entry
+      description: Delete a software entry from the registry.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the software entry to delete
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Software entry deleted successfully
+        '404':
+          description: Software entry not found
+
 components:
   securitySchemes:
     bearerAuth:
@@ -640,3 +732,43 @@ components:
         paid:
           type: boolean
           description: Status of on call week payment
+
+    SoftwareRegistry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the software entry
+        name:
+          type: string
+          description: Name of the software
+        description:
+          type: string
+          description: Description of the software
+        url:
+          type: string
+          format: uri
+          description: URL to relevant information/marketing page
+        image:
+          type: string
+          format: uri
+          description: URL to the image of the software
+        status:
+          type: string
+          enum: [pending, under review, accepted, deprecated, declined]
+          description: Status of the software entry
+        createdBy:
+          type: string
+          description: User who created the software entry
+        createdAt:
+          type: string
+          format: date-time
+          description: Date and time when the software entry was created
+        lastUpdatedBy:
+          type: string
+          description: User who last updated the software entry
+        lastUpdatedAt:
+          type: string
+          format: date-time
+          description: Date and time when the software entry was last updated
