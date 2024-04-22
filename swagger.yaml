@@ -410,7 +410,7 @@ paths:
       tags:
         - Software
       responses:
-        '200':
+        "200":
           description: A list of software entries
           content:
             application/json:
@@ -433,7 +433,7 @@ paths:
             schema:
               $ref: "#/components/schemas/SoftwareRegistry"
       responses:
-        '201':
+        "201":
           description: Software entry created successfully
         "default":
           description: Bad request, software entry already exists or invalid data
@@ -453,7 +453,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Software entry retrieved successfully
           content:
             application/json:
@@ -483,7 +483,7 @@ paths:
             schema:
               $ref: "#/components/schemas/SoftwareRegistry"
       responses:
-        '200':
+        "200":
           description: Software entry updated successfully
           content:
           application/json:
@@ -506,7 +506,7 @@ paths:
           schema:
             type: string
       responses:
-        '204':
+        "204":
           description: Software entry deleted successfully
         "default":
           description: Software entry not found
