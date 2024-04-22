@@ -404,8 +404,11 @@ paths:
 
   "/software":
     get:
+      operationId: listSoftware
       summary: Get all software entries
       description: Retrieve a list of all software entries in the registry.
+      tags:
+        - Software
       responses:
         '200':
           description: A list of software entries
@@ -414,28 +417,34 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/SoftwareRegistry'
+                  $ref: "#/components/schemas/SoftwareRegistry"
 
     post:
+      operationId: createSoftware
       summary: Register new software
       description: Register a new software entry in the registry.
+      tags:
+        - Software
       requestBody:
         description: Software entry to register
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SoftwareRegistry'
+              $ref: "#/components/schemas/SoftwareRegistry"
       responses:
         '201':
           description: Software entry created successfully
-        '400':
+        "default":
           description: Bad request, software entry already exists or invalid data
 
   "/software/{id}":
     get:
+      operationId: getSoftwareById
       summary: Get software by ID
       description: Retrieve a software entry by its unique identifier.
+      tags:
+        - Software
       parameters:
         - name: id
           in: path
@@ -449,13 +458,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SoftwareRegistry'
-        '404':
+                $ref: "#/components/schemas/SoftwareRegistry"
+        "default":
           description: Software entry not found
 
     put:
+      operationId: updateSoftwareById
       summary: Update software entry
       description: Update an existing software entry in the registry.
+      tags:
+        - Software
       parameters:
         - name: id
           in: path
@@ -469,18 +481,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SoftwareRegistry'
+              $ref: "#/components/schemas/SoftwareRegistry"
       responses:
         '200':
           description: Software entry updated successfully
-        '400':
+          content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SoftwareRegistry"
+        "default":
           description: Bad request, invalid data
-        '404':
-          description: Software entry not found
 
     delete:
+      operationId: deleteSoftwareById
       summary: Delete software entry
       description: Delete a software entry from the registry.
+      tags:
+        - Software
       parameters:
         - name: id
           in: path
@@ -491,7 +508,7 @@ paths:
       responses:
         '204':
           description: Software entry deleted successfully
-        '404':
+        "default":
           description: Software entry not found
 
 components:
@@ -733,6 +750,11 @@ components:
           type: boolean
           description: Status of on call week payment
 
+    SoftwareStatus:
+      type: string
+      enum: [pending, under review, accepted, deprecated, declined]
+      description: Status of the software entry
+
     SoftwareRegistry:
       type: object
       properties:
@@ -755,9 +777,7 @@ components:
           format: uri
           description: URL to the image of the software
         status:
-          type: string
-          enum: [pending, under review, accepted, deprecated, declined]
-          description: Status of the software entry
+          $ref: "#/components/schemas/SoftwareStatus"
         createdBy:
           type: string
           description: User who created the software entry
