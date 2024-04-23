@@ -402,6 +402,119 @@ paths:
         "200":
           description: Paid status updated
 
+  "/software":
+    get:
+      operationId: listSoftware
+      summary: Get all software entries
+      description: Retrieve a list of all software entries in the registry.
+      tags:
+        - Software
+      responses:
+        "200":
+          description: A list of software entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SoftwareRegistry"
+
+    post:
+      operationId: createSoftware
+      summary: Register new software
+      description: Register a new software entry in the registry.
+      tags:
+        - Software
+      requestBody:
+        description: Software entry to register
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SoftwareRegistry"
+      responses:
+        "201":
+          description: Software entry created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoftwareRegistry"
+        "default":
+          description: Bad request, software entry already exists or invalid data
+
+  "/software/{id}":
+    get:
+      operationId: getSoftwareById
+      summary: Get software by ID
+      description: Retrieve a software entry by its unique identifier.
+      tags:
+        - Software
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the software entry to retrieve
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Software entry retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoftwareRegistry"
+        "default":
+          description: Software entry not found
+
+    put:
+      operationId: updateSoftwareById
+      summary: Update software entry
+      description: Update an existing software entry in the registry.
+      tags:
+        - Software
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the software entry to update
+          schema:
+            type: string
+      requestBody:
+        description: Updated software entry
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SoftwareRegistry"
+      responses:
+        "200":
+          description: Software entry updated successfully
+          content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SoftwareRegistry"
+        "default":
+          description: Bad request, invalid data
+
+    delete:
+      operationId: deleteSoftwareById
+      summary: Delete software entry
+      description: Delete a software entry from the registry.
+      tags:
+        - Software
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the software entry to delete
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Software entry deleted successfully
+        "default":
+          description: Software entry not found
+
 components:
   securitySchemes:
     bearerAuth:
@@ -640,3 +753,51 @@ components:
         paid:
           type: boolean
           description: Status of on call week payment
+
+    SoftwareStatus:
+      type: string
+      description: Status of the software entry
+      enum: 
+        - PENDING
+        - UNDER_REVIEW
+        - ACCEPTED
+        - DEPRICATED
+        - DECLINED
+
+    SoftwareRegistry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the software entry
+        name:
+          type: string
+          description: Name of the software
+        description:
+          type: string
+          description: Description of the software
+        url:
+          type: string
+          format: uri
+          description: URL to relevant information/marketing page
+        image:
+          type: string
+          format: uri
+          description: URL to the image of the software
+        status:
+          $ref: "#/components/schemas/SoftwareStatus"
+        createdBy:
+          type: string
+          description: User who created the software entry
+        createdAt:
+          type: string
+          format: date-time
+          description: Date and time when the software entry was created
+        lastUpdatedBy:
+          type: string
+          description: User who last updated the software entry
+        lastUpdatedAt:
+          type: string
+          format: date-time
+          description: Date and time when the software entry was last updated
