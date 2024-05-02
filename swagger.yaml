@@ -490,9 +490,9 @@ paths:
         "200":
           description: Software entry updated successfully
           content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SoftwareRegistry"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoftwareRegistry"
         "default":
           description: Bad request, invalid data
 
