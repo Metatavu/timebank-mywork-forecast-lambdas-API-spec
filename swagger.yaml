@@ -397,7 +397,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/OnCall"
+              $ref: "#/components/schemas/OnCallPaid"
       responses:
         "200":
           description: Paid status updated
@@ -740,15 +740,33 @@ components:
       type: object
       description: On-call data from AWS S3
       required:
+        - Person
+        - Week
+        - Paid
+      properties:
+        Person:
+          type: string
+          description: Name of a person on call
+        Week:
+          type: string
+          description: On call week number.
+        Paid:
+          type: boolean
+          description: Status of on call week payment.
+
+    OnCallPaid:
+      type: object
+      description: On-call request body to update paid status.
+      required:
         - year
         - week
         - paid
       properties:
         year:
-          type: string
+          type: number
           description: Selected year of on call entries
         week:
-          type: string
+          type: number
           description: Selected week of on call entries
         paid:
           type: boolean
