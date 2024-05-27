@@ -88,10 +88,9 @@ paths:
           content:
             application/json;charset=utf-8:
               schema:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/Projects"
-                
+                type: array
+                items:
+                  $ref: "#/components/schemas/Projects"
 
   "/tasks":
     get:
@@ -168,6 +167,24 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Time-entries"
+
+  "/slack-avatar":
+    get:
+      operationId: slackAvatar
+      summary: Lists users avatars
+      description: |
+        Lists users avatars 
+      tags:
+        - Slack avatars
+      responses:
+        "200":
+          description: A list of images for forecast users
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Users-avatars"
 
   "/salesLeads":
     get:
@@ -624,6 +641,15 @@ components:
         date:
           type: string
           format: date
+
+    Users-avatars:
+      type: object
+      description: Users avatars data 
+      properties:
+        personId:
+          type: integer
+        image_original:
+          type: string
 
     Lead:
       type: object
