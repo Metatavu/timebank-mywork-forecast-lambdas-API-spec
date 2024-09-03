@@ -128,7 +128,7 @@ paths:
       operationId: listProjectTimeEntries
       summary: Lists Forecast project time entries
       description: |
-        Lists Forecast project time entries filtered by sprint dates and task 
+        Lists Forecast project time entries filtered by sprint dates and task
       tags:
         - Time entries
       parameters:
@@ -173,7 +173,7 @@ paths:
       operationId: slackAvatar
       summary: Lists users avatars
       description: |
-        Lists users avatars 
+        Lists users avatars
       tags:
         - Slack avatars
       responses:
@@ -532,6 +532,58 @@ paths:
         "default":
           description: Software entry not found
 
+  /users:
+    get:
+      operationId: listUsers
+      summary: Get list of keycloak users.
+      description: Get list of keycloak users.
+      tags:
+        - Users
+      responses:
+        "200":
+          description: Get list of keycloak users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /users/{userId}:
+    get:
+      operationId: findUser
+      summary: Find user by keycloak id
+      description: Finds user by keycloak id in keycloak.
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Users ID in Keycloak
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Found User information.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
 components:
   securitySchemes:
     bearerAuth:
@@ -540,6 +592,39 @@ components:
       bearerFormat: JWT
 
   schemas:
+    User:
+      type: object
+      description: User Data
+      required:
+        - id
+        - firstName
+        - lastName
+        - isActive
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Person ID in Keycloak.
+        firstName:
+          type: string
+          description: Person first name.
+        lastName:
+          type: string
+          description: Person last name.
+        email:
+          type: string
+          description: Person email.
+        isActive:
+          type: boolean
+          description: Defining is person active e.g. is employed.
+        severaGuid:
+          type: string
+          description: Persons GUID in Severa
+        forecastId:
+          type: integer
+          format: int32
+          description: Persons ID in Forecast. Used for keeping a reference of Forecast based TimeEntries and Users.
+
     Allocations:
       type: object
       description: Allocation data from Forecast Api
@@ -634,7 +719,7 @@ components:
           type: integer
         project:
           type: integer
-        task: 
+        task:
           type: integer
         timeRegistered:
           type: integer
@@ -644,7 +729,7 @@ components:
 
     Users-avatars:
       type: object
-      description: Users avatars data 
+      description: Users avatars data
       properties:
         personId:
           type: integer
@@ -801,7 +886,7 @@ components:
     SoftwareStatus:
       type: string
       description: Status of the software entry
-      enum: 
+      enum:
         - PENDING
         - UNDER_REVIEW
         - ACCEPTED
