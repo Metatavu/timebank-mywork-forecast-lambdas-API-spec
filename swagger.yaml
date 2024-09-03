@@ -534,7 +534,7 @@ paths:
 
   "/questionnaire":
     get:
-      operationId: listQuestionnaire
+      operationId: listQuestionnaires
       summary: Get all questionnaire entries
       description: Retrieve a list of all questionnaire entries in the registry.
       tags:
@@ -574,7 +574,7 @@ paths:
 
   "/questionnaire/{id}":
     get:
-      operationId: getQuestionnaireById
+      operationId: getQuestionnaire
       summary: Get questionnaire by ID
       description: Retrieve a questionnaire entry by its unique identifier.
       tags:
@@ -597,7 +597,7 @@ paths:
           description: Questionnaire entry not found
 
     put:
-      operationId: updateQuestionnaireById
+      operationId: updateQuestionnaire
       summary: Update questionnaire entry
       description: Update an existing questionnaire entry in the registry.
       tags:
@@ -627,7 +627,7 @@ paths:
           description: Bad request, invalid data
 
     delete:
-      operationId: deleteQuestionnaireById
+      operationId: deleteQuestionnaire
       summary: Delete questionnaire entry
       description: Delete a questionnaire entry from the registry.
       tags:
