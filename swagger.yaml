@@ -532,6 +532,119 @@ paths:
         "default":
           description: Software entry not found
 
+  "/questionnaire":
+    get:
+      operationId: listQuestionnaire
+      summary: Get all questionnaire entries
+      description: Retrieve a list of all questionnaire entries in the registry.
+      tags:
+        - Questionnaire
+      responses:
+        "200":
+          description: A list of questionnaire entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Questionnaire"
+
+    post:
+      operationId: createQuestionnaire
+      summary: Register new questionnaire
+      description: Register a new questionnaire entry in the registry.
+      tags:
+        - Questionnaire
+      requestBody:
+        description: Questionnaire entry to register
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Questionnaire"
+      responses:
+        "201":
+          description: Questionnaire entry created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Questionnaire"
+        "default":
+          description: Bad request, questionnaire entry already exists or invalid data
+
+  "/questionnaire/{id}":
+    get:
+      operationId: getQuestionnaireById
+      summary: Get questionnaire by ID
+      description: Retrieve a questionnaire entry by its unique identifier.
+      tags:
+        - Questionnaire
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the questionnaire entry to retrieve
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Questionnaire entry retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Questionnaire"
+        "default":
+          description: Questionnaire entry not found
+
+    put:
+      operationId: updateQuestionnaireById
+      summary: Update questionnaire entry
+      description: Update an existing questionnaire entry in the registry.
+      tags:
+        - Questionnaire
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the questionnaire entry to update
+          schema:
+            type: string
+      requestBody:
+        description: Updated questionnaire entry
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Questionnaire"
+      responses:
+        "200":
+          description: Questionnaire entry updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Questionnaire"
+        "default":
+          description: Bad request, invalid data
+
+    delete:
+      operationId: deleteQuestionnaireById
+      summary: Delete questionnaire entry
+      description: Delete a questionnaire entry from the registry.
+      tags:
+        - Questionnaire
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the questionnaire entry to delete
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Questionnaire entry deleted successfully
+        "default":
+          description: Questionnaire entry not found
+
 components:
   securitySchemes:
     bearerAuth:
@@ -845,3 +958,36 @@ components:
           type: string
           format: date-time
           description: Date and time when the software entry was last updated
+        
+      Questionnaire:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: Unique identifier for the questionnaire
+          title:
+            type: string
+            description: Title of the questionnaire
+          description:
+            type: string
+            description: Description of the questionnaire
+          questions:
+            type: array
+            items:
+              $ref: '#/components/schemas/QuestionnaireQuestions'
+            description: List of questions in the questionnaire
+
+      QuestionnaireQuestions:
+        type: object
+        properties:
+          question:
+            type: string
+            description: The question text
+          answers:
+            type: array
+            items:
+              type: string
+            description: List of possible answers
+          correctAnswer:
+            type: string
+            description: The correct answer to the question
