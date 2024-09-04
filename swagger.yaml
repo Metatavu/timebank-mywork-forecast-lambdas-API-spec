@@ -604,26 +604,26 @@ components:
         id:
           type: string
           format: uuid
-          description: Person ID in Keycloak.
+          description: User's ID in Keycloak.
         firstName:
           type: string
-          description: Person first name.
+          description: User's first name.
         lastName:
           type: string
-          description: Person last name.
+          description: User's last name.
         email:
           type: string
-          description: Person email.
+          description: User's email.
         isActive:
           type: boolean
-          description: Defining is person active e.g. is employed.
+          description: Defining is user is active e.g. is employed.
         severaGuid:
           type: string
-          description: Persons GUID in Severa
+          description: User's GUID in Severa
         forecastId:
           type: integer
           format: int32
-          description: Persons ID in Forecast. Used for keeping a reference of Forecast based TimeEntries and Users.
+          description: User's ID in Forecast. Used for keeping a reference of Forecast based TimeEntries and Users.
 
     Allocations:
       type: object
