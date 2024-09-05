@@ -532,7 +532,7 @@ paths:
         "default":
           description: Software entry not found
 
-  /users:
+  "/users":
     get:
       operationId: listUsers
       summary: Get list of keycloak users.
@@ -550,12 +550,8 @@ paths:
                   $ref: "#/components/schemas/User"
         "default":
           description: Invalid request was sent to the server.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
 
-  /users/{userId}:
+  "/users/{userId}":
     get:
       operationId: findUser
       summary: Find user by keycloak id
@@ -579,10 +575,6 @@ paths:
                 $ref: "#/components/schemas/User"
         "default":
           description: Invalid request was sent to the server.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
 
 components:
   securitySchemes:
