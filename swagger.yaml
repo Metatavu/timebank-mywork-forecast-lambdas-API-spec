@@ -620,7 +620,7 @@ components:
         passedQuestionnaires:
           type: array
           items:
-            type: string
+            type: integer
         severaGuid:
           type: string
           description: User's GUID in Severa
