@@ -855,11 +855,14 @@ components:
           type: array
           items:
             type: string
+          description: An array that stores the user IDs of individuals who the software is recommended to
         tags:
           type: array
           items:
             type: string
+          description: An array that holds tags associated with the software for categorization
         users:
           type: array
           items:
             type: string
+          description: An array that stores the user IDs of individuals who have added or are using the software
