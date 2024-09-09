@@ -805,11 +805,17 @@ components:
         - PENDING
         - UNDER_REVIEW
         - ACCEPTED
-        - DEPRICATED
+        - DEPRECATED
         - DECLINED
 
     SoftwareRegistry:
       type: object
+      required:
+        - name
+        - description
+        - url
+        - image
+        - createdBy
       properties:
         id:
           type: string
@@ -845,3 +851,18 @@ components:
           type: string
           format: date-time
           description: Date and time when the software entry was last updated
+        recommend:
+          type: array
+          items:
+            type: string
+          description: An array that stores the user IDs of individuals who the software is recommended to
+        tags:
+          type: array
+          items:
+            type: string
+          description: An array that holds tags associated with the software for categorization
+        users:
+          type: array
+          items:
+            type: string
+          description: An array that stores the user IDs of individuals who have added or are using the software
