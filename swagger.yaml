@@ -535,32 +535,24 @@ paths:
   "/questionnaire":
     get:
       operationId: listQuestionnaires
-      summary: List questionnaires
-      description: Retrieve a list of all questionnaires in the registry.
+      summary: Get all questionnaire entries
+      description: Retrieve a list of all questionnaire entries in the registry.
       tags:
         - Questionnaire
       responses:
         "200":
-          description: A list of questionnaires
+          description: A list of questionnaire entries
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: "#/components/schemas/Questionnaire"
-        "default":
-          description: Invalid request was sent to the server.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error" 
 
     post:
       operationId: createQuestionnaire
       summary: Register new questionnaire
-      description: Register a new questionnaire in the registry.
+      description: Register a new questionnaire entry in the registry.
       tags:
         - Questionnaire
       requestBody:
@@ -578,18 +570,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/Questionnaire"
         "default":
-          description: Invalid request was sent to the server.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error" 
-
+          description: Bad request, questionnaire entry already exists or invalid data
 
   "/questionnaire/{id}":
     get:
-      operationId: getQuestionnaireById
+      operationId: getQuestionnaire
       summary: Get questionnaire by ID
       description: Retrieve a questionnaire entry by its unique identifier.
       tags:
@@ -609,13 +594,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Questionnaire"
         "default":
-          description: Invalid request was sent to the server.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error" 
+          description: Questionnaire entry not found
 
     put:
       operationId: updateQuestionnaire
@@ -645,13 +624,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Questionnaire"
         "default":
-          description: Invalid request was sent to the server.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+          description: Bad request, invalid data
 
     delete:
       operationId: deleteQuestionnaire
@@ -668,15 +641,9 @@ paths:
             type: string
       responses:
         "204":
-          description: Empty response indicating successful removal. 
+          description: Questionnaire entry deleted successfully
         "default":
-          description: Invalid request was sent to the server.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error" 
+          description: Questionnaire entry not found
 
 components:
   securitySchemes:
@@ -686,24 +653,6 @@ components:
       bearerFormat: JWT
 
   schemas:
-
-    Error:
-      type: object
-      description: Error object
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: integer
-          format: int32
-          description: Error code
-        message:
-          type: string
-          description: Error message
-    # This is from time-bank-api-spec swagger.yaml file
-    
-
     Allocations:
       type: object
       description: Allocation data from Forecast Api
@@ -1010,35 +959,51 @@ components:
           format: date-time
           description: Date and time when the software entry was last updated
         
-      Questionnaire:
-        type: object
-        properties:
-          id:
+    Questionnaire:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the questionnaire
+        title:
+          type: string
+          description: Title of the questionnaire
+        description:
+          type: string
+          description: Description of the questionnaire
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/Questions'
+          description: List of questions in the questionnaire
+        tags:
+          type: array
+          items:
+            type: string
+          description: List of tags for the questionnaire
+        passedUsers:
+          type: array
+          items:
             type: integer
-            description: Unique identifier for the questionnaire
-          title:
-            type: string
-            description: Title of the questionnaire
-          description:
-            type: string
-            description: Description of the questionnaire
-          questions:
-            type: array
-            items:
-              $ref: '#/components/schemas/QuestionnaireQuestions'
-            description: List of questions in the questionnaire
+          description: List of users who have passed the questionnaire
+        passedScore:
+          type: integer
+          description: Minimum score required to pass the questionnaire
 
-      QuestionnaireQuestions:
-        type: object
-        properties:
-          question:
-            type: string
-            description: The question text
-          answers:
-            type: array
-            items:
-              type: string
-            description: List of possible answers
-          correctAnswer:
-            type: string
-            description: The correct answer to the question
+    Questions:
+      type: object
+      properties:
+        question:
+          type: string
+          description: The question text
+        options:
+          type: array
+          items:
+            type: boolean
+          description: List of possible answers
+        correctAnswers:
+
+          type: array
+          items:
+            type: boolean
+          description: The correct answers to the question
