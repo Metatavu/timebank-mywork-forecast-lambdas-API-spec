@@ -548,14 +548,14 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Questionnaire"
-      "default":
-          description: Invalid request was sent to the server.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error" 
+        "default":
+            description: Invalid request was sent to the server.
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Error" 
 
     post:
       operationId: createQuestionnaire
@@ -700,7 +700,6 @@ components:
         message:
           type: string
           description: Error message
-    # This is from time-bank-api-spec swagger.yaml file
     
     Allocations:
       type: object
@@ -1023,7 +1022,7 @@ components:
         options:
           type: array
           items:
-            $ref: '#/components/schemas/Questions'
+            $ref: "#/components/schemas/Questions"
           description: List of questions in the questionnaire
         tags:
           type: array
@@ -1035,7 +1034,7 @@ components:
           items:
             type: integer
           description: List of users who have passed the questionnaire
-        passedScore:
+        passScore:
           type: integer
           description: Minimum score required to pass the questionnaire
 
@@ -1048,11 +1047,12 @@ components:
         options:
           type: array
           items:
-            type: boolean
-          description: List of possible answers
-        correctAnswers:
-
-          type: array
-          items:
-            type: boolean
-          description: The correct answers to the question
+            type: object
+            properties:
+              label:
+                type: string
+                description: Display text for the option
+              value:
+                type: boolean
+                description: Boolean value of the option
+          description: List of correct answers with labels and boolean values
