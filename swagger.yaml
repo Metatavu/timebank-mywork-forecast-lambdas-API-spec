@@ -128,7 +128,7 @@ paths:
       operationId: listProjectTimeEntries
       summary: Lists Forecast project time entries
       description: |
-        Lists Forecast project time entries filtered by sprint dates and task 
+        Lists Forecast project time entries filtered by sprint dates and task
       tags:
         - Time entries
       parameters:
@@ -173,7 +173,7 @@ paths:
       operationId: slackAvatar
       summary: Lists users avatars
       description: |
-        Lists users avatars 
+        Lists users avatars
       tags:
         - Slack avatars
       responses:
@@ -532,6 +532,50 @@ paths:
         "default":
           description: Software entry not found
 
+  "/users":
+    get:
+      operationId: listUsers
+      summary: Get list of keycloak users.
+      description: Get list of keycloak users.
+      tags:
+        - Users
+      responses:
+        "200":
+          description: Get list of keycloak users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        "default":
+          description: Invalid request was sent to the server.
+
+  "/users/{userId}":
+    get:
+      operationId: findUser
+      summary: Find user by keycloak id
+      description: Finds user by keycloak id in keycloak.
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Users ID in Keycloak
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Found User information.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "default":
+          description: Invalid request was sent to the server.
+
   "/questionnaire":
     get:
       operationId: listQuestionnaires
@@ -675,7 +719,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Error" 
+                  $ref: "#/components/schemas/Error"
 
 components:
   securitySchemes:
@@ -685,22 +729,43 @@ components:
       bearerFormat: JWT
 
   schemas:
-
-    Error:
+    User:
       type: object
-      description: Error object
+      description: User Data
       required:
-        - code
-        - message
+        - id
+        - firstName
+        - lastName
+        - isActive
       properties:
-        code:
+        id:
+          type: string
+          format: uuid
+          description: User's ID in Keycloak.
+        firstName:
+          type: string
+          description: User's first name.
+        lastName:
+          type: string
+          description: User's last name.
+        email:
+          type: string
+          description: User's email.
+        isActive:
+          type: boolean
+          description: Defining is user is active e.g. is employed.
+        passedQuestionnaires:
+          type: array
+          items:
+            type: integer
+        severaGuid:
+          type: string
+          description: User's GUID in Severa
+        forecastId:
           type: integer
           format: int32
-          description: Error code
-        message:
-          type: string
-          description: Error message
-    
+          description: User's ID in Forecast. Used for keeping a reference of Forecast based TimeEntries and Users.
+
     Allocations:
       type: object
       description: Allocation data from Forecast Api
@@ -795,7 +860,7 @@ components:
           type: integer
         project:
           type: integer
-        task: 
+        task:
           type: integer
         timeRegistered:
           type: integer
@@ -805,7 +870,7 @@ components:
 
     Users-avatars:
       type: object
-      description: Users avatars data 
+      description: Users avatars data
       properties:
         personId:
           type: integer
@@ -962,15 +1027,21 @@ components:
     SoftwareStatus:
       type: string
       description: Status of the software entry
-      enum: 
+      enum:
         - PENDING
         - UNDER_REVIEW
         - ACCEPTED
-        - DEPRICATED
+        - DEPRECATED
         - DECLINED
 
     SoftwareRegistry:
       type: object
+      required:
+        - name
+        - description
+        - url
+        - image
+        - createdBy
       properties:
         id:
           type: string
@@ -1006,6 +1077,21 @@ components:
           type: string
           format: date-time
           description: Date and time when the software entry was last updated
+        recommend:
+          type: array
+          items:
+            type: string
+          description: An array that stores the user IDs of individuals who the software is recommended to
+        tags:
+          type: array
+          items:
+            type: string
+          description: An array that holds tags associated with the software for categorization
+        users:
+          type: array
+          items:
+            type: string
+          description: An array that stores the user IDs of individuals who have added or are using the software
 
     Questionnaire:
       type: object
