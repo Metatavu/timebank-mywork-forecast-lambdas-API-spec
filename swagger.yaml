@@ -729,6 +729,21 @@ components:
       bearerFormat: JWT
 
   schemas:
+    Error:
+      type: object
+      description: Error object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: Error code
+        message:
+          type: string
+          description: Error message
+
     User:
       type: object
       description: User Data
