@@ -576,6 +576,151 @@ paths:
         "default":
           description: Invalid request was sent to the server.
 
+  "/questionnaire":
+    get:
+      operationId: listQuestionnaires
+      summary: List questionnaires
+      description: Retrieve a list of all questionnaires in the registry.
+      tags:
+        - Questionnaire
+      responses:
+        "200":
+          description: A list of questionnaires
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Questionnaire"
+        "default":
+            description: Invalid request was sent to the server.
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Error" 
+
+    post:
+      operationId: createQuestionnaire
+      summary: Register new questionnaire
+      description: Register a new questionnaire in the registry.
+      tags:
+        - Questionnaire
+      requestBody:
+        description: Questionnaire entry to register
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Questionnaire"
+      responses:
+        "201":
+          description: Questionnaire entry created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Questionnaire"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error" 
+
+  "/questionnaire/{id}":
+    get:
+      operationId: getQuestionnaireById
+      summary: Get questionnaire by ID
+      description: Retrieve a questionnaire entry by its unique identifier.
+      tags:
+        - Questionnaire
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the questionnaire entry to retrieve
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Questionnaire entry retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Questionnaire"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error" 
+
+    put:
+      operationId: updateQuestionnaire
+      summary: Update questionnaire entry
+      description: Update an existing questionnaire entry in the registry.
+      tags:
+        - Questionnaire
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the questionnaire entry to update
+          schema:
+            type: string
+      requestBody:
+        description: Updated questionnaire entry
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Questionnaire"
+      responses:
+        "200":
+          description: Questionnaire entry updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Questionnaire"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error"
+
+    delete:
+      operationId: deleteQuestionnaire
+      summary: Delete questionnaire entry
+      description: Delete a questionnaire entry from the registry.
+      tags:
+        - Questionnaire
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the questionnaire entry to delete
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Empty response indicating successful removal.
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error"
+
 components:
   securitySchemes:
     bearerAuth:
@@ -947,3 +1092,56 @@ components:
           items:
             type: string
           description: An array that stores the user IDs of individuals who have added or are using the software
+
+    Questionnaire:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the questionnaire
+        title:
+          type: string
+          description: Title of the questionnaire
+        description:
+          type: string
+          description: Description of the questionnaire
+        options:
+          type: array
+          items:
+            $ref: "#/components/schemas/Questions"
+          description: List of questions in the questionnaire
+        tags:
+          type: array
+          items:
+            type: string
+          description: List of tags for the questionnaire
+        passedUsers:
+          type: array
+          items:
+            type: integer
+          description: List of users who have passed the questionnaire
+        passScore:
+          type: integer
+          description: Minimum score required to pass the questionnaire
+
+    Questions:
+      type: object
+      properties:
+        question:
+          type: string
+          description: The question text
+        options:
+          type: array
+          items:
+            $ref: "#/components/schemas/Options"
+          description: List of options objects containing options labels and answer status boolean
+
+    Options:
+      type: object
+      properties:
+        label:
+          type: string
+          description: Display text for the option
+        value:
+          type: boolean
+          description: Boolean value to indicate if option is correct or incorrect
