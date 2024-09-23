@@ -1112,7 +1112,8 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
           description: Unique identifier for the questionnaire
         title:
           type: string
@@ -1127,11 +1128,13 @@ components:
           description: List of questions in the questionnaire
         tags:
           type: array
+          optional: true
           items:
             type: string
           description: List of tags for the questionnaire
         passedUsers:
           type: array
+          optional: true
           items:
             type: integer
           description: List of users who have passed the questionnaire
