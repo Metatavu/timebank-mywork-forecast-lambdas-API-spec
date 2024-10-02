@@ -4,8 +4,14 @@ info:
   description: Metatavu Home lambdas
   version: 1.0.0
 
+servers:
+  - url: https://api.severa.visma.com/rest-api
+
 security:
   - bearerAuth: []
+  - OAuth2:
+    - users:read
+  - ClientIdAuth: []
 
 paths:
   "/allocations":
@@ -721,12 +727,77 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
+  "/v1/users/{userGuid}/flextime": 
+    get:
+      tags:
+        - UsersRead
+      summary: 
+        Get the flextime balance for a user for a specified date. Total balance
+        is returned for the given date. Month balance is the balance for the
+        month of the given date. Values are returned only if the advanced time
+        tracking add-on is active.
+      operationId: Flextime_GetFlextime
+      parameters:
+        - name: userGuid
+          in: path
+          required: true
+          description: Id of the user.
+          schema:
+            type: string
+          x-position: 1
+          x-relation-guid: UserOutputModel
+        - name: eventDate
+          in: query
+          description:
+            Date for which to get the balance. Max 12 months into the future.
+          schema:
+            type: string
+            format: date-time
+          x-position: 2
+      responses:
+        "200":
+          description: FlextimeModel.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlextimeModel'
+        "403":
+          description: Addon required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Resource not found
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+
+    OAuth2:
+      type: oauth2
+      description: SeveraAPI uses OAuth 2 with the Client Credentials flow
+      flows:
+        clientCredentials:
+          tokenUrl: /token
+          refreshUrl: /refreshtoken
+          scopes:
+            users:read: Read-only access to user resources
+
+    clientIdAuth:
+      type: apiKey
+      description: Client_Id header
+      name: Client_Id
+      in: header
 
   schemas:
     Error:
@@ -1167,3 +1238,15 @@ components:
         value:
           type: boolean
           description: Boolean value to indicate if option is correct or incorrect
+
+    FlextimeModel:
+      type: object
+      properties:
+        totalFlextimeBalance:
+          type: number
+          format: double
+          nullable: true
+        monthFlextimeBalance:
+          type: number
+          format: double
+          nullable: true
