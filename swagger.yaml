@@ -760,13 +760,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FlextimeModel'
+                $ref: "#/components/schemas/FlextimeModel"
         "403":
           description: Addon required
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         "404":
           description: Resource not found
         default:
@@ -774,7 +774,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
 
 components:
   securitySchemes:
