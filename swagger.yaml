@@ -739,7 +739,7 @@ paths:
             type: string
       responses:
         "200":
-          description: FlextimeModel.
+          description: Flextime entry retrieved successfully
           content:
             application/json:
               schema:
