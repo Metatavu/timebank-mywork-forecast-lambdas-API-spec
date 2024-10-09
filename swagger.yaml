@@ -723,13 +723,11 @@ paths:
 
   "/severa/flextime/{severaGuid}": 
     get:
+      operationId: getFlextimeBySeveraGuid
+      summary: Get the flextime balance for a user.
+      description: Retrieve the flextime balances for a user based on their Severa GUID.
       tags:
-        - UsersRead
-      summary: 
-        Get the flextime balance for a user. Total balance
-        is returned for the current date. Month balance is the balance for the
-        month of the current date.
-      operationId: getFlextimeByUser
+        - flextime
       parameters:
         - name: severaGuid
           in: path
@@ -744,6 +742,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Flextime"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error"
         
 components:
   securitySchemes:
