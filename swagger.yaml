@@ -721,8 +721,6 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
-# New lambda for vacations
-
   "/vacationsRequests":
     get:
       operationId: listVacationRequests
@@ -1316,7 +1314,7 @@ components:
           description: Boolean value to indicate if option is correct or incorrect
 
 
-          VacationRequest:
+    VacationRequest:
       type: object
       required:
         - id
