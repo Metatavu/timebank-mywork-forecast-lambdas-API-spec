@@ -721,6 +721,153 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
+# New lambda for vacations
+
+  "/vacationsRequests":
+    get:
+      operationId: listVacationRequests
+      summary: List vacation requests
+      description: Lists persisted vacation requests
+      tags:
+        - VacationRequests
+      responses:
+        "200":
+          description: A list of vacation requests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/VacationRequest"
+        "default":
+            description: Invalid request was sent to the server.
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Error" 
+
+    post:
+      operationId: createVacationRequest
+      summary: Register new vacation request
+      description: Register a new vacation request
+      tags:
+        - VacationRequests
+      requestBody:
+        description: Vacation request entry to register
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VacationRequest"
+      responses:
+        "201":
+          description: Vacation request entry created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VacationRequest"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error" 
+
+  "/vacationsRequests/{id}":
+    get:
+      operationId: getVacationRequestById
+      summary: Get vacation request by ID
+      description: Retrieve a vacation request entry by its unique identifier.
+      tags:
+        - VacationRequests
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the vacation request entry to retrieve
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Vacation request entry retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VacationRequest"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error" 
+
+    put:
+      operationId: updateVacationRequest
+      summary: Update vacation request entry
+      description: Update an existing vacation request entry in the registry.
+      tags:
+        - VacationRequests
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the vacation request entry to update
+          schema:
+            type: string
+      requestBody:
+        description: Updated vacation request entry
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VacationRequest"
+      responses:
+        "200":
+          description: Vacation request entry updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VacationRequest"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error"
+
+    delete:
+      operationId: deleteVacationRequest
+      summary: Delete vacation request entry
+      description: Delete a vacation request entry from the registry.
+      tags:
+        - VacationRequests
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the vacation request entry to delete
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Empty response indicating successful removal.
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error"
+
 components:
   securitySchemes:
     bearerAuth:
@@ -1167,3 +1314,73 @@ components:
         value:
           type: boolean
           description: Boolean value to indicate if option is correct or incorrect
+
+
+          VacationRequest:
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - startDate
+        - endDate
+        - vacationType
+        - message
+        - status
+        - days
+        - vacationDaysLeft
+        - countSaturdays
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the vacation requests
+        firstName:
+          type: string
+          description: Name of employee, who created vacation request
+        lastName:
+          type: string
+          description: Lastname of employee, who created vacation request
+        email:
+          type: string
+          description: Email of employee, who created vacation request
+        startDate:
+          type: string 
+          format: date-time
+          description: Start date for the vacation request
+        endDate:
+          type: string
+          format: date-time
+          description: End date for the vacation request
+        vacationType:
+          type: string
+          description: Type of the vacation request
+          enum:
+            - VACATION
+            - UNPAID_TIME_OFF
+            - SICKNESS
+            - PERSONAL_DAYS
+            - MATERNITY_PATERNITY
+            - CHILD_SICKNESS
+        message:
+          type: string
+          description: Message from the empployee about the vacation request (additional information)
+        status:
+          type: string
+          description: Status of the vacation request
+          enum:
+            - IN REVIEW
+            - ACCEPTED
+            - DENIED
+        days:
+          type: integer
+          description: Length of a vacation request in days.
+        vacationDaysLeft:
+          type: integer
+          description: Number of vacation days an employee has left
+        countSaturdays:
+          type: bool
+          description: Whether or not saturdays should be counted as vacation days
+        
+
