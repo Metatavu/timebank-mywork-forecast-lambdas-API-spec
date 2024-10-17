@@ -721,6 +721,36 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
+  "/severa/{severaGuid}/flextime": 
+    get:
+      operationId: getFlextimeBySeveraGuid
+      summary: Get the flextime balance for a user.
+      description: Retrieve the flextime balances for a user based on their Severa GUID.
+      tags:
+        - flextime
+      parameters:
+        - name: severaGuid
+          in: path
+          required: true
+          description: severaGuid of the user.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Flextime entry retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Flextime"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error"
+        
 components:
   securitySchemes:
     bearerAuth:
@@ -1167,3 +1197,15 @@ components:
         value:
           type: boolean
           description: Boolean value to indicate if option is correct or incorrect
+
+    Flextime:
+      type: object
+      properties:
+        totalFlextimeBalance:
+          type: number
+          format: double
+          nullable: true
+        monthFlextimeBalance:
+          type: number
+          format: double
+          nullable: true
