@@ -758,15 +758,43 @@ paths:
       description: Lists persisted vacation requests
       tags:
         - VacationRequests
+      parameters:
+        - name: personId
+          required: false
+          in: query
+          description: Filter by persons unique ID
+          schema:
+            type: string
+            format: uuid
+        - name: before
+          required: false
+          in: query
+          description: Retrieve vacation requests before given date.
+          schema:
+            type: string
+            format: date
+        - name: after
+          required: false
+          in: query
+          description: Retrieve vacation requests after given date.
+          schema:
+            type: string
+            format: date
+        - name: draft
+          required: false
+          in: query
+          description: Filter Vacation Requests by draft state
+          schema:
+            type: boolean
       responses:
-        "200":
-          description: A list of vacation requests
+        '200':
+          description: List of vacation requests.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/VacationRequest"
+                  $ref: '#/components/schemas/VacationRequest'
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -775,57 +803,55 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Error"
-
     post:
       operationId: createVacationRequest
-      summary: Register new vacation request
-      description: Register a new vacation request
+      summary: Post a new vacation request
+      description: Add new vacation request
       tags:
         - VacationRequests
       requestBody:
-        description: Vacation request entry to register
+        description: New vacation request
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/VacationRequest"
+              $ref: '#/components/schemas/VacationRequest'
       responses:
-        "201":
-          description: Vacation request entry created successfully
+        '201':
+          description: created new vacation request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/VacationRequest"
+                $ref: '#/components/schemas/VacationRequest'
         "default":
           description: Invalid request was sent to the server.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
 
   "/vacationsRequests/{id}":
     get:
-      operationId: getVacationRequestById
-      summary: Get vacation request by ID
-      description: Retrieve a vacation request entry by its unique identifier.
+      operationId: findVacationRequest
+      summary: Finds vacation request
+      description: Finds persisted vacation request
       tags:
         - VacationRequests
       parameters:
         - name: id
-          in: path
           required: true
-          description: ID of the vacation request entry to retrieve
+          in: path
+          description: VacationRequest id
           schema:
             type: string
+            format: uuid
       responses:
-        "200":
-          description: Vacation request entry retrieved successfully
+        '200':
+          description: Found vacation request.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/VacationRequest"
+                $ref: '#/components/schemas/VacationRequest'
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -834,68 +860,63 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Error"
-
     put:
       operationId: updateVacationRequest
-      summary: Update vacation request entry
-      description: Update an existing vacation request entry in the registry.
+      summary: Updates vacation request
+      description: Update vacation request
       tags:
         - VacationRequests
       parameters:
         - name: id
-          in: path
           required: true
-          description: ID of the vacation request entry to update
+          in: path
+          description: VacationRequest id
           schema:
             type: string
+            format: uuid
       requestBody:
-        description: Updated vacation request entry
+        description: Updated vacation request
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/VacationRequest"
+              $ref: '#/components/schemas/VacationRequest'
       responses:
-        "200":
-          description: Vacation request entry updated successfully
+        '200':
+          description: created new vacation request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/VacationRequest"
+                $ref: '#/components/schemas/VacationRequest'
         "default":
           description: Invalid request was sent to the server.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
-
+                $ref: "#/components/schemas/Error"
     delete:
       operationId: deleteVacationRequest
-      summary: Delete vacation request entry
-      description: Delete a vacation request entry from the registry.
+      summary: Delete a vacation request.
+      description: Deletes a vacation request.
       tags:
         - VacationRequests
       parameters:
         - name: id
-          in: path
           required: true
-          description: ID of the vacation request entry to delete
+          in: path
+          description: VacationRequest id
           schema:
             type: string
+            format: uuid
       responses:
         "204":
           description: Empty response indicating successful removal.
         "default":
-          description: Invalid request was sent to the server.
+          description: Invalid request was sent to the server
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
-
+                $ref: "#/components/schemas/Error"
 components:
   securitySchemes:
     bearerAuth:
