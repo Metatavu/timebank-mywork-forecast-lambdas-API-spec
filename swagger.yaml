@@ -721,6 +721,36 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
+  "/severa/{severaGuid}/flextime": 
+    get:
+      operationId: getFlextimeBySeveraGuid
+      summary: Get the flextime balance for a user.
+      description: Retrieve the flextime balances for a user based on their Severa GUID.
+      tags:
+        - flextime
+      parameters:
+        - name: severaGuid
+          in: path
+          required: true
+          description: severaGuid of the user.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Flextime entry retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Flextime"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error"
+        
   "/vacationsRequests":
     get:
       operationId: listVacationRequests
@@ -1382,3 +1412,85 @@ components:
           description: Whether or not saturdays should be counted as vacation days
         
 
+
+
+    VacationRequest:
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - startDate
+        - endDate
+        - vacationType
+        - message
+        - status
+        - days
+        - vacationDaysLeft
+        - countSaturdays
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the vacation requests
+        firstName:
+          type: string
+          description: Name of employee, who created vacation request
+        lastName:
+          type: string
+          description: Lastname of employee, who created vacation request
+        email:
+          type: string
+          description: Email of employee, who created vacation request
+        startDate:
+          type: string 
+          format: date-time
+          description: Start date for the vacation request
+        endDate:
+          type: string
+          format: date-time
+          description: End date for the vacation request
+        vacationType:
+          type: string
+          description: Type of the vacation request
+          enum:
+            - VACATION
+            - UNPAID_TIME_OFF
+            - SICKNESS
+            - PERSONAL_DAYS
+            - MATERNITY_PATERNITY
+            - CHILD_SICKNESS
+        message:
+          type: string
+          description: Message from the empployee about the vacation request (additional information)
+        status:
+          type: string
+          description: Status of the vacation request
+          enum:
+            - IN REVIEW
+            - ACCEPTED
+            - DENIED
+        days:
+          type: integer
+          description: Length of a vacation request in days.
+        vacationDaysLeft:
+          type: integer
+          description: Number of vacation days an employee has left
+        countSaturdays:
+          type: bool
+          description: Whether or not saturdays should be counted as vacation days
+        
+
+
+    Flextime:
+      type: object
+      properties:
+        totalFlextimeBalance:
+          type: number
+          format: double
+          nullable: true
+        monthFlextimeBalance:
+          type: number
+          format: double
+          nullable: true
