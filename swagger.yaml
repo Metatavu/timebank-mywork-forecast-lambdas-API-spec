@@ -794,7 +794,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/VacationRequest'
+                  $ref: "#/components/schemas/VacationRequest"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -1545,11 +1545,7 @@ components:
       description: Enum for vacation type
       enum:
         - VACATION
-        - UNPAID_TIME_OFF
-        - SICKNESS
-        - PERSONAL_DAYS
-        - MATERNITY_PATERNITY
-        - CHILD_SICKNESS
+
 
     VacationRequestStatuses:
       type: string
@@ -1565,13 +1561,12 @@ components:
       required:
         - personId
         - days
-        - startDate
+        - startDateS
         - endDate
         - type
         - message
         - createdAt
         - updatedAt
-        - draft
       properties:
         id:
           type: string
