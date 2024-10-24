@@ -593,13 +593,13 @@ paths:
                 items:
                   $ref: "#/components/schemas/Questionnaire"
         "default":
-            description: Invalid request was sent to the server.
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/Error" 
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error"
 
     post:
       operationId: createQuestionnaire
@@ -628,7 +628,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Error" 
+                  $ref: "#/components/schemas/Error"
 
   "/questionnaire/{id}":
     get:
@@ -658,7 +658,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Error" 
+                  $ref: "#/components/schemas/Error"
 
     put:
       operationId: updateQuestionnaire
@@ -721,7 +721,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
-  "/severa/{severaGuid}/flextime": 
+  "/severa/{severaGuid}/flextime":
     get:
       operationId: getFlextimeBySeveraGuid
       summary: Get the flextime balance for a user.
@@ -750,7 +750,349 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Error"
-        
+
+  "/vacationsRequests":
+    get:
+      operationId: listVacationRequests
+      summary: List vacation requests
+      description: Lists persisted vacation requests
+      tags:
+        - VacationRequests
+      parameters:
+        - name: personId
+          required: false
+          in: query
+          description: Filter by persons unique ID
+          schema:
+            type: string
+            format: uuid
+        - name: before
+          required: false
+          in: query
+          description: Retrieve vacation requests before given date.
+          schema:
+            type: string
+            format: date
+        - name: after
+          required: false
+          in: query
+          description: Retrieve vacation requests after given date.
+          schema:
+            type: string
+            format: date
+        - name: draft
+          required: false
+          in: query
+          description: Filter Vacation Requests by draft state
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: List of vacation requests.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/VacationRequest"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error"
+    post:
+      operationId: createVacationRequest
+      summary: Post a new vacation request
+      description: Add new vacation request
+      tags:
+        - VacationRequests
+      requestBody:
+        description: New vacation request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VacationRequest'
+      responses:
+        '201':
+          description: created new vacation request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VacationRequest'
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/vacationsRequests/{id}":
+    get:
+      operationId: findVacationRequest
+      summary: Finds vacation request
+      description: Finds persisted vacation request
+      tags:
+        - VacationRequests
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: VacationRequest id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Found vacation request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VacationRequest'
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error"
+    put:
+      operationId: updateVacationRequest
+      summary: Updates vacation request
+      description: Update vacation request
+      tags:
+        - VacationRequests
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: VacationRequest id
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Updated vacation request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VacationRequest'
+      responses:
+        '200':
+          description: created new vacation request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VacationRequest'
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: deleteVacationRequest
+      summary: Delete a vacation request.
+      description: Deletes a vacation request.
+      tags:
+        - VacationRequests
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: VacationRequest id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Empty response indicating successful removal.
+        "default":
+          description: Invalid request was sent to the server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  "/vacationRequests/{id}/statuses":
+    get:
+      operationId: listVacationRequestStatuses
+      summary: List vacation requests statuses
+      description: List vacation requests statuses
+      tags:
+        - VacationRequestStatus
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: VacationRequest id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: List of vacation requests.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VacationRequestStatus'
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error"
+    post:
+      operationId: createVacationRequestStatus
+      summary: Post a new vacation request status
+      description: Add new vacation request status
+      tags:
+        - VacationRequestStatus
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: VacationRequest id
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: New vacation request status
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VacationRequestStatus'
+      responses:
+        '201':
+          description: created new vacation request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VacationRequestStatus'
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/vacationRequests/{id}/statuses/{statusId}":
+    get:
+      operationId: findVacationRequestStatus
+      summary: Finds vacation request status
+      description: Finds persisted vacation request status
+      tags:
+        - VacationRequestStatus
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: VacationRequest id
+          schema:
+            type: string
+            format: uuid
+        - name: statusId
+          required: true
+          in: path
+          description: VacationRequestStatus id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Found vacation request status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VacationRequestStatus'
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error"
+    put:
+      operationId: updateVacationRequestStatus
+      summary: Updates vacation request status
+      description: Update vacation request status
+      tags:
+        - VacationRequestStatus
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: VacationRequest id
+          schema:
+            type: string
+            format: uuid
+        - name: statusId
+          required: true
+          in: path
+          description: VacationRequestStatus id
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Updated vacation request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VacationRequestStatus'
+      responses:
+        '200':
+          description: created new vacation request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VacationRequestStatus'
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: deleteVacationRequestStatus
+      summary: Delete a vacation request status.
+      description: Deletes a vacation requests status.
+      tags:
+        - VacationRequestStatus
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: VacationRequestStatus id
+          schema:
+            type: string
+            format: uuid
+        - name: statusId
+          required: true
+          in: path
+          description: VacationRequestStatus id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Empty response indicating successful removal.
+        "default":
+          description: Invalid request was sent to the server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
 components:
   securitySchemes:
     bearerAuth:
@@ -1197,6 +1539,114 @@ components:
         value:
           type: boolean
           description: Boolean value to indicate if option is correct or incorrect
+
+    VacationType:
+      type: string
+      description: Enum for vacation type
+      enum:
+        - VACATION
+
+
+    VacationRequestStatuses:
+      type: string
+      description: Enum for vacation request status
+      enum:
+        - PENDING
+        - APPROVED
+        - DECLINED
+
+    VacationRequest:
+      type: object
+      description: Person's single vacation request
+      required:
+        - personId
+        - days
+        - startDateS
+        - endDate
+        - type
+        - message
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of vacation request in UUID
+          default: null
+        personId:
+          type: string
+          format: uuid
+          description: Person keycloak ID in UUID
+        draft:
+          type: boolean
+          description: Draft state
+        startDate:
+          type: string
+          format: date
+          description: Date of vacation start
+        endDate:
+          type: string
+          format: date
+          description: Date of vacation end
+        days:
+          type: integer
+          format: int32
+          description: Vacation days used for requested vacation
+        type:
+          $ref: "#/components/schemas/VacationType"
+        message:
+          type: string
+          description: Message attached to request
+        createdBy:
+          type: string
+          format: uuid
+          description: ID of person who created status in UUID
+        createdAt:
+          type: string
+          format: date-time
+          description: Date time of vacation request registration
+        updatedAt:
+          type: string
+          format: date-time
+          description: Date time of vacation request update
+
+    VacationRequestStatus:
+      type: object
+      description: singular vacation request status
+      required:
+        - status
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of vacation request status in UUID
+          default: null
+        vacationRequestId:
+          type: string
+          format: uuid
+          description: ID of vacation request in UUID
+          default: null
+        status:
+          $ref: "#/components/schemas/VacationRequestStatuses"
+        message:
+          type: string
+          description: Date of vacation start
+        createdAt:
+          type: string
+          format: date-time
+          description: Date time of status registration
+        createdBy:
+          type: string
+          format: uuid
+          description: ID of person who created status in UUID
+        updatedAt:
+          type: string
+          format: date-time
+          description: Date time of status update
+        updatedBy:
+          type: string
+          format: uuid
+          description: ID of person who updated status in UUID
 
     Flextime:
       type: object
