@@ -1436,10 +1436,13 @@ components:
           description: Unique identifier for the software entry
         name:
           type: string
-          description: Name of the software
+          description: Name of the software entry
         description:
           type: string
-          description: Description of the software
+          description: Description of the software entry
+        review:
+          type: string
+          description: Review of the software entry
         url:
           type: string
           format: uri
@@ -1447,7 +1450,7 @@ components:
         image:
           type: string
           format: uri
-          description: URL to the image of the software
+          description: URL to the image of the software entry
         status:
           $ref: "#/components/schemas/SoftwareStatus"
         createdBy:
