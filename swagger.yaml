@@ -1851,12 +1851,12 @@ components:
       type: object
       description: A base reference to a submodel with an GUID and a Name
       properties:
-        severaUserGuid:
+        severaRefGuid:
           type: string
-          description: Id of the object
+          description: Id of the reference object
         name:
           type: string
-          description: Name of the object
+          description: Name of the reference object
 
 
             
