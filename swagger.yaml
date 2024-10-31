@@ -751,6 +751,36 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
+  "/severa/projects/{severaProjectGuid}/phaseswithhierarchy":
+    get:
+      operationId: getPhasesBySeveraProjectId
+      summary: Get all the phases for project
+      description: Retrieve all the phases for a particular project with given ID.
+      tags:
+        - Phases
+      parameters:
+        - name: severaProjectGuid
+          in: path
+          required: true
+          description: ID of the project.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Phases entry retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Phase"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error"
+
   "/vacationsRequests":
     get:
       operationId: listVacationRequests
@@ -1662,3 +1692,41 @@ components:
           type: number
           format: double
           nullable: true
+
+    Phase:
+      type: object
+      properties:
+        phaseGuid:
+          type: string
+          nullable: false
+        name:
+          type: string
+          nullable: true
+        isCompleted:
+          type: boolean
+          default: false
+        workHoursEstimate:
+          type: number
+          format: double
+        startDate:
+          type: string
+          format: date
+        deadline:
+          type: string
+          format: date
+        project:
+          $ref: "#/components/schemas/PhaseProject"
+
+    PhaseProject:
+      type: object
+      properties:
+        projectGuid:
+          type: string
+          description: Id of the project
+        name:
+          type: string
+          description: Name of the project
+        isClosed:
+          type: boolean
+          default: false
+          description: Boolean value to indicate if the project has been closed or not
