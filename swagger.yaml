@@ -789,7 +789,7 @@ paths:
       tags:
         - resourceallocations
       parameters:
-        - name: severaGuid
+        - name: severaUserGuid
           in: path
           required: true
           description: severaGuid of the user.
@@ -821,7 +821,7 @@ paths:
       tags:
         - WorkHours
       parameters:
-        - name: severaWorkHourGuid
+        - name: severaUserGuid
           in: path
           required: true
           description: ID of the work hour.
