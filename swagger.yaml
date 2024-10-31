@@ -812,6 +812,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Error"
+
   "/vacationsRequests":
     get:
       operationId: listVacationRequests
@@ -1720,41 +1721,112 @@ components:
           type: number
           format: double
           nullable: true
+
+    Phase:
+      type: object
+      properties:
+        severaPhaseGuid:
+          type: string
+        name:
+          type: string
+          nullable: true
+        isCompleted:
+          type: boolean
+          default: false
+        workHoursEstimate:
+          type: number
+          format: double
+        startDate:
+          type: string
+          format: date
+        deadline:
+          type: string
+          format: date
+        project:
+          $ref: "#/components/schemas/PhaseProjectSubModel"
     
     ResourceAllocations:
       type: object
       properties:
-        projectGuid:
+        severaProjectGuid:
           type: string
-          format: uuid
         allocationHours:
           type: number
-          format: float
+          format: double
         calculatedAllocationHours:
           type: number
-          format: float
-        #phase:
-          # $ref: "#/components/schemas/Phase"
+          format: double
+        phase:
+           $ref: "#/components/schemas/BaseSubModel"
         user:
-          $ref: "#/components/schemas/User"
+          $ref: "#/components/schemas/BaseSubModel"
         project:
-          $ref: "#/components/schemas/Project"
-        #workHours:
-          #$ref: "#/components/schemas/WorkHours"
-          
-    Project:
+          $ref: "#/components/schemas/ResourceAllocationProjectSubModel"
+
+    WorkHours:
       type: object
       properties:
-        guid:
+        severaWorkHoursGuid:
+          type: string
+        user:
+          $ref: "#/components/schemas/BaseSubModel"
+        project:
+          $ref: "#/components/schemas/PhaseProjectSubModel"
+        phase:
+          $ref: "#/components/schemas/BaseSubModel"
+        description:
+          type: string
+        eventDate:
+          type: string
+          format: date
+        quantity:
+          type: number
+          format: double
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+
+    PhaseProjectSubModel:
+      type: object
+      description: A reference to Project Sub Module in Phase Object
+      properties:
+        severaProjectGuid:
+          type: string
+          description: Id of the project
+        name:
+          type: string
+          description: Name of the project
+        isClosed:
+          type: boolean
+          default: false
+          description: Boolean value to indicate if the project has been closed or not
+
+    ResourceAllocationProjectSubModel:
+      type: object
+      description: A reference to Project Sub Module in Resource Allocation Object
+      properties:
+        severaProjectGuid:
           type: string
           format: uuid
         name:
           type: string
         isInternal:
           type: boolean
-        number:
-          type: number
-    
+
+
+    BaseSubModel:
+      type: object
+      description: A base reference to a submodel with an GUID and a Name
+      properties:
+        severaUserGuid:
+          type: string
+          description: Id of the object
+        name:
+          type: string
+          description: Name of the object
 
 
             
