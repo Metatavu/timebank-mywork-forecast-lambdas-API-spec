@@ -721,7 +721,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
-  "/severa/{severaGuid}/flextime":
+  "/severa/{severaUserGuid}/flextime":
     get:
       operationId: getFlextimeBySeveraGuid
       summary: Get the flextime balance for a user.
@@ -729,7 +729,7 @@ paths:
       tags:
         - flextime
       parameters:
-        - name: severaGuid
+        - name: severaUserGuid
           in: path
           required: true
           description: severaGuid of the user.
@@ -781,7 +781,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
-  "/severa/{severaGuid}/resourceallocations":
+  "/severa/{severaUserGuid}/resourceallocations":
     get:
       operationId: getAllocationsBySeveraGuid
       summary: Get the resource allocations for a user.
@@ -804,6 +804,36 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ResourceAllocations"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error"
+
+  "/severa/users/{severaUserGuid}/workhours":
+    get:
+      operationId: getWorkHoursBySeveraProjectId
+      summary: Get all the work hours for project
+      description: Retrieve all the work hours for a particular user with given ID.
+      tags:
+        - WorkHours
+      parameters:
+        - name: severaWorkHourGuid
+          in: path
+          required: true
+          description: ID of the work hour.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: WorkHours entry retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkHours"
         "default":
           description: Invalid request was sent to the server.
           content:
