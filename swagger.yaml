@@ -781,6 +781,37 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
+  "/severa/{severaGuid}/resourceallocations":
+    get:
+      operationId: getAllocationsBySeveraGuid
+      summary: Get the resource allocations for a user.
+      description: Retrieve the resource allocations for a user based on their Severa GUID.
+      tags:
+        - resourceallocations
+      parameters:
+        - name: severaGuid
+          in: path
+          required: true
+          description: severaGuid of the user.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Resource allocations retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ResourceAllocations"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error"
   "/vacationsRequests":
     get:
       operationId: listVacationRequests
@@ -1466,13 +1497,10 @@ components:
           description: Unique identifier for the software entry
         name:
           type: string
-          description: Name of the software entry
+          description: Name of the software
         description:
           type: string
-          description: Description of the software entry
-        review:
-          type: string
-          description: Review of the software entry
+          description: Description of the software
         url:
           type: string
           format: uri
@@ -1480,7 +1508,7 @@ components:
         image:
           type: string
           format: uri
-          description: URL to the image of the software entry
+          description: URL to the image of the software
         status:
           $ref: "#/components/schemas/SoftwareStatus"
         createdBy:
@@ -1692,41 +1720,44 @@ components:
           type: number
           format: double
           nullable: true
-
-    Phase:
-      type: object
-      properties:
-        phaseGuid:
-          type: string
-          nullable: false
-        name:
-          type: string
-          nullable: true
-        isCompleted:
-          type: boolean
-          default: false
-        workHoursEstimate:
-          type: number
-          format: double
-        startDate:
-          type: string
-          format: date
-        deadline:
-          type: string
-          format: date
-        project:
-          $ref: "#/components/schemas/PhaseProject"
-
-    PhaseProject:
+    
+    ResourceAllocations:
       type: object
       properties:
         projectGuid:
           type: string
-          description: Id of the project
+          format: uuid
+        allocationHours:
+          type: number
+          format: float
+        calculatedAllocationHours:
+          type: number
+          format: float
+        #phase:
+          # $ref: "#/components/schemas/Phase"
+        user:
+          $ref: "#/components/schemas/User"
+        project:
+          $ref: "#/components/schemas/Project"
+        #workHours:
+          #$ref: "#/components/schemas/WorkHours"
+          
+    Project:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
         name:
           type: string
-          description: Name of the project
-        isClosed:
+        isInternal:
           type: boolean
-          default: false
-          description: Boolean value to indicate if the project has been closed or not
+        number:
+          type: number
+    
+
+
+            
+              
+            
+              
