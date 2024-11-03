@@ -917,6 +917,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+
   "/vacationRequests/{id}/statuses":
     get:
       operationId: listVacationRequestStatuses
@@ -1092,6 +1093,264 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+
+  "/card-comments":
+    post:
+      operationId: createComment
+      summary: Add a comment to a Trello card
+      description: Creates a new comment on a specified Trello card.
+      tags:
+        - Trello
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cardId:
+                  type: string
+                  description: The ID of the Trello card.
+                comment:
+                  type: string
+                  description: The comment text.
+      responses:
+        "200":
+          description: Comment created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cardId:
+                    type: string
+                    description: The ID of the Trello card.
+                  comment:
+                    type: string
+                    description: The comment text.
+        "400":
+          description: Missing required parameters.
+        "500":
+          description: Failed to create comment.
+
+  "/card":
+    post:
+      operationId: createCard
+      summary: Create a new Trello card
+      description: Adds a new card to a Trello board.
+      tags:
+        - Trello
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: The title of the Trello card.
+                description:
+                  type: string
+                  description: Description of the Trello card.
+      responses:
+        "200":
+          description: Card created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cardId:
+                    type: string
+                  title:
+                    type: string
+                  description:
+                    type: string
+        "400":
+          description: Missing required parameters.
+        "500":
+          description: Failed to create card.
+
+    get:
+      operationId: listCards
+      summary: Get all Trello cards on a list
+      description: Retrieves a list of cards and their comments from a specified Trello list.
+      tags:
+        - Trello
+      responses:
+        "200":
+          description: List of cards retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Card"
+                  
+        "500":
+          description: Failed to fetch cards.
+
+  "/board-members":
+    get:
+      operationId: getBoardMembersEmails
+      summary: Get Trello board members' emails
+      description: Retrieves the email addresses of Trello board members.
+      tags:
+        - Trello
+      responses:
+        "200":
+          description: List of board members' emails retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Member"
+        "500":
+          description: Failed to fetch board members' emails.
+
+  "/card/{id}":
+    delete:
+      operationId: deleteCard
+      summary: Delete a Trello card by ID
+      description: Deletes a Trello card identified by its unique ID.
+      tags:
+        - Trello
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Card deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "400":
+          description: Missing required parameters.
+        "500":
+          description: Failed to delete card.
+
+  "/memos":
+    get:
+      operationId: getMemoPdf
+      summary: List memo PDF content
+      description: Retrieves the content of PDF memos.
+      tags:
+        - Memo
+      parameters:
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: List of memo PDFs retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: "#/components/schemas/PdfFile"
+                               
+        "400":
+          description: Missing parameters.
+
+  "/memo-summary":
+    get:
+      operationId: getSummaryMemo
+      summary: Generate summary of a memo content
+      description: Generates a summary of a memo content.
+      tags:
+        - Memo
+      parameters:
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: fileId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Memo summary generated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  en:
+                    type: string
+                  fi:
+                    type: string
+        "400":
+          description: Missing parameters.
+        "404":
+          description: File not found.
+
+  "/memo-translate":
+    get:
+      operationId: getTranslatedMemoPdf
+      summary: Get translated memo content
+      description: Retrieves the translated content of a memo PDF.
+      tags:
+        - Memo
+      parameters:
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: fileId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Translated memo content retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PdfFile"
+        "400":
+          description: Missing parameters.
+        "404":
+          description: File not found.
+
+  "/memo-create-pdf":
+    get:
+      operationId: createMemoPdf
+      summary: Convert and upload Docs to PDF
+      description: Converts all Google Docs within the main root folder to PDF format and uploads them.
+      tags:
+        - Memo
+      responses:
+        "200":
+          description: PDFs uploaded successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Failed to upload PDFs.
 
 components:
   securitySchemes:
@@ -1662,3 +1921,106 @@ components:
           type: number
           format: double
           nullable: true
+
+    Memo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the memo
+        title:
+          type: string
+          description: Title of the memo
+        content:
+          type: string
+          description: Content or description of the memo
+        fileId:
+          type: string
+          description: Google Drive pdf file ID associated with the memo
+        date:
+          type: string
+          format: date
+          description: Date the memo was created or relevant to the memo
+        summary:
+          type: string
+          description: Summary of the memo content
+        translatedContent:
+          type: string
+          description: Translated content of the memo
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+        tags:
+          type: array
+          items:
+            type: string
+          description: Tags associated with the memo
+        attachments:
+          type: array
+          items:
+            type: string
+          description: List of attachments related to the memo
+        assignedTo:
+          type: array
+          items:
+            type: string
+          description: List of users assigned to this memo
+
+    Card:
+      type: object
+      properties:
+        cardId:
+          type: string
+          description: Unique identifier for the Trello card
+        title:
+          type: string
+          description: Title of the Trello card
+        description:
+          type: string
+          description: Detailed description of the Trello card
+        assignedPersons:
+          type: array
+          items:
+            type: string
+          description: List of persons assigned to the card
+        comments:
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+                description: Comment text
+              createdBy:
+                type: string
+                description: Author of the comment
+    
+    Member:
+      type: object
+      properties:
+        memberId:
+          type: string
+          description: Unique identifier for the Trello board member
+        fullName:
+          type: string
+          description: Full name of the Trello board member
+        email:
+          type: string
+          description: Email of the Trello board member
+          
+    PdfFile: 
+      type: object
+      properties:
+        id:
+          type: string
+        name: 
+          type: string
+        content:
+          type: string
+          format: byte
+          description: Base64-encoded PDF content 
