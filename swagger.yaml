@@ -723,7 +723,7 @@ paths:
 
   "/severa/{severaUserGuid}/flextime":
     get:
-      operationId: getFlextimeBySeveraGuid
+      operationId: getFlextimeBySeveraUserGuid
       summary: Get the flextime balance for a user.
       description: Retrieve the flextime balances for a user based on their Severa GUID.
       tags:
@@ -783,7 +783,7 @@ paths:
 
   "/severa/{severaUserGuid}/resourceallocations":
     get:
-      operationId: getAllocationsBySeveraGuid
+      operationId: getAllocationsBySeveraUserGuid
       summary: Get the resource allocations for a user.
       description: Retrieve the resource allocations for a user based on their Severa GUID.
       tags:
@@ -1237,7 +1237,7 @@ components:
           type: array
           items:
             type: integer
-        severaGuid:
+        severaUserGuid:
           type: string
           description: User's GUID in Severa
         forecastId:
