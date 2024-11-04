@@ -843,7 +843,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
-  "/vacationsRequests":
+  "/vacationRequests":
     get:
       operationId: listVacationRequests
       summary: List vacation requests
@@ -922,7 +922,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/vacationsRequests/{id}":
+  "/vacationRequests/{id}":
     get:
       operationId: findVacationRequest
       summary: Finds vacation request
