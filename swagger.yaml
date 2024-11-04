@@ -727,7 +727,7 @@ paths:
       summary: Get the flextime balance for a user.
       description: Retrieve the flextime balances for a user based on their Severa GUID.
       tags:
-        - flextime
+        - FlexTime
       parameters:
         - name: severaUserGuid
           in: path
@@ -787,7 +787,7 @@ paths:
       summary: Get the resource allocations for a user.
       description: Retrieve the resource allocations for a user based on their Severa GUID.
       tags:
-        - resourceallocations
+        - ResourceAllocations
       parameters:
         - name: severaUserGuid
           in: path
@@ -1787,9 +1787,9 @@ components:
           type: number
           format: double
         phase:
-           $ref: "#/components/schemas/BaseSubModel"
+           $ref: "#/components/schemas/PhaseSubModel"
         user:
-          $ref: "#/components/schemas/BaseSubModel"
+          $ref: "#/components/schemas/UserSubModel"
         project:
           $ref: "#/components/schemas/ResourceAllocationProjectSubModel"
 
@@ -1799,11 +1799,11 @@ components:
         severaWorkHoursGuid:
           type: string
         user:
-          $ref: "#/components/schemas/BaseSubModel"
+          $ref: "#/components/schemas/UserSubModel"
         project:
           $ref: "#/components/schemas/PhaseProjectSubModel"
         phase:
-          $ref: "#/components/schemas/BaseSubModel"
+          $ref: "#/components/schemas/PhaseSubModel"
         description:
           type: string
         eventDate:
@@ -1834,29 +1834,39 @@ components:
           default: false
           description: Boolean value to indicate if the project has been closed or not
 
+    PhaseSubModel:
+      type: object
+      description: A reference to Phase Sub Module in Resource Allocation Object
+      properties:
+        severaPhaseGuid:
+          type: string
+          description: Id of the phase
+        name:
+          type: string
+          description: Name of the phase
+
+    UserSubModel:
+      type: object
+      description: A reference to User Sub Module in Resource Allocation Object
+      properties:
+        severaUserGuid:
+          type: string
+          description: Id of the user
+        name:
+          type: string
+          description: Name of the user
+
     ResourceAllocationProjectSubModel:
       type: object
       description: A reference to Project Sub Module in Resource Allocation Object
       properties:
         severaProjectGuid:
           type: string
-          format: uuid
         name:
           type: string
         isInternal:
           type: boolean
-
-
-    BaseSubModel:
-      type: object
-      description: A base reference to a submodel with an GUID and a Name
-      properties:
-        severaUserGuid:
-          type: string
-          description: Id of the object
-        name:
-          type: string
-          description: Name of the object
+    
 
 
             
