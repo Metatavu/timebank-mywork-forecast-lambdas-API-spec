@@ -721,18 +721,18 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
-  "/severa/{severaGuid}/flextime":
+  "/severa/{severaUserId}/flextime":
     get:
-      operationId: getFlextimeBySeveraGuid
+      operationId: getFlextimeBySeveraUserId
       summary: Get the flextime balance for a user.
       description: Retrieve the flextime balances for a user based on their Severa GUID.
       tags:
         - flextime
       parameters:
-        - name: severaGuid
+        - name: severaUserId
           in: path
           required: true
-          description: severaGuid of the user.
+          description: severaUserId of the user.
           schema:
             type: string
       responses:
@@ -1145,9 +1145,9 @@ components:
           type: array
           items:
             type: integer
-        severaGuid:
+        severaUserId:
           type: string
-          description: User's GUID in Severa
+          description: User's ID in Severa
         forecastId:
           type: integer
           format: int32
@@ -1486,7 +1486,6 @@ components:
     Questionnaire:
       type: object
       required:
-        - id
         - title
         - description
         - options
@@ -1524,7 +1523,7 @@ components:
     Questions:
       type: object
       properties:
-        question:
+        questionText:
           type: string
           description: The question text
         options:
