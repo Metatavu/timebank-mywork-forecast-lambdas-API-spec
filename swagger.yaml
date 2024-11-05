@@ -721,18 +721,18 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
-  "/severa/{severaUserGuid}/flextime":
+  "/severa/{severaUserId}/flexTime":
     get:
-      operationId: getFlextimeBySeveraUserGuid
+      operationId: getFlextimeBySeveraUserId
       summary: Get the flextime balance for a user.
-      description: Retrieve the flextime balances for a user based on their Severa GUID.
+      description: Retrieve the flextime balances for a user based on their SeveraUserId.
       tags:
         - FlexTime
       parameters:
-        - name: severaUserGuid
+        - name: severaUserId
           in: path
           required: true
-          description: severaGuid of the user.
+          description: severaId of the user.
           schema:
             type: string
       responses:
@@ -751,7 +751,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
-  "/severa/projects/{severaProjectGuid}/phaseswithhierarchy":
+  "/severa/projects/{severaProjectId}/phasesWithHierarchy":
     get:
       operationId: getPhasesBySeveraProjectId
       summary: Get all the phases for project
@@ -759,7 +759,7 @@ paths:
       tags:
         - Phases
       parameters:
-        - name: severaProjectGuid
+        - name: severaProjectId
           in: path
           required: true
           description: ID of the project.
@@ -781,18 +781,18 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
-  "/severa/{severaUserGuid}/resourceallocations":
+  "/severa/{severaUserId}/resourceAllocations":
     get:
-      operationId: getAllocationsBySeveraUserGuid
+      operationId: getAllocationsBySeveraUserId
       summary: Get the resource allocations for a user.
-      description: Retrieve the resource allocations for a user based on their Severa GUID.
+      description: Retrieve the resource allocations for a user based on their SeveraUserId.
       tags:
         - ResourceAllocations
       parameters:
-        - name: severaUserGuid
+        - name: severaUserId
           in: path
           required: true
-          description: severaGuid of the user.
+          description: severaId of the user.
           schema:
             type: string
       responses:
@@ -813,7 +813,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
-  "/severa/users/{severaUserGuid}/workhours":
+  "/severa/users/{severaUserId}/workHours":
     get:
       operationId: getWorkHoursBySeveraProjectId
       summary: Get all the work hours for project
@@ -821,10 +821,10 @@ paths:
       tags:
         - WorkHours
       parameters:
-        - name: severaUserGuid
+        - name: severaUserId
           in: path
           required: true
-          description: ID of the work hour.
+          description: severaId of the user.
           schema:
             type: string
       responses:
@@ -879,7 +879,7 @@ paths:
           schema:
             type: boolean
       responses:
-        '200':
+        "200":
           description: List of vacation requests.
           content:
             application/json:
@@ -907,14 +907,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VacationRequest'
+              $ref: "#/components/schemas/VacationRequest"
       responses:
-        '201':
+        "201":
           description: created new vacation request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VacationRequest'
+                $ref: "#/components/schemas/VacationRequest"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -938,12 +938,12 @@ paths:
             type: string
             format: uuid
       responses:
-        '200':
+        "200":
           description: Found vacation request.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VacationRequest'
+                $ref: "#/components/schemas/VacationRequest"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -972,14 +972,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VacationRequest'
+              $ref: "#/components/schemas/VacationRequest"
       responses:
-        '200':
+        "200":
           description: created new vacation request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VacationRequest'
+                $ref: "#/components/schemas/VacationRequest"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -1025,14 +1025,14 @@ paths:
             type: string
             format: uuid
       responses:
-        '200':
+        "200":
           description: List of vacation requests.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/VacationRequestStatus'
+                  $ref: "#/components/schemas/VacationRequestStatus"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -1061,14 +1061,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VacationRequestStatus'
+              $ref: "#/components/schemas/VacationRequestStatus"
       responses:
-        '201':
+        "201":
           description: created new vacation request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VacationRequestStatus'
+                $ref: "#/components/schemas/VacationRequestStatus"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -1099,12 +1099,12 @@ paths:
             type: string
             format: uuid
       responses:
-        '200':
+        "200":
           description: Found vacation request status.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VacationRequestStatus'
+                $ref: "#/components/schemas/VacationRequestStatus"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -1140,14 +1140,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VacationRequestStatus'
+              $ref: "#/components/schemas/VacationRequestStatus"
       responses:
-        '200':
+        "200":
           description: created new vacation request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VacationRequestStatus'
+                $ref: "#/components/schemas/VacationRequestStatus"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -1237,9 +1237,9 @@ components:
           type: array
           items:
             type: integer
-        severaUserGuid:
+        severaUserId:
           type: string
-          description: User's GUID in Severa
+          description: User's ID in Severa
         forecastId:
           type: integer
           format: int32
@@ -1638,7 +1638,6 @@ components:
       enum:
         - VACATION
 
-
     VacationRequestStatuses:
       type: string
       description: Enum for vacation request status
@@ -1755,7 +1754,7 @@ components:
     Phase:
       type: object
       properties:
-        severaPhaseGuid:
+        severaPhaseId:
           type: string
         name:
           type: string
@@ -1774,11 +1773,11 @@ components:
           format: date
         project:
           $ref: "#/components/schemas/PhaseProjectSubModel"
-    
+
     ResourceAllocations:
       type: object
       properties:
-        severaProjectGuid:
+        severaProjectId:
           type: string
         allocationHours:
           type: number
@@ -1787,7 +1786,7 @@ components:
           type: number
           format: double
         phase:
-           $ref: "#/components/schemas/PhaseSubModel"
+          $ref: "#/components/schemas/PhaseSubModel"
         user:
           $ref: "#/components/schemas/UserSubModel"
         project:
@@ -1796,7 +1795,7 @@ components:
     WorkHours:
       type: object
       properties:
-        severaWorkHoursGuid:
+        severaWorkHoursId:
           type: string
         user:
           $ref: "#/components/schemas/UserSubModel"
@@ -1823,7 +1822,7 @@ components:
       type: object
       description: A reference to Project Sub Module in Phase Object
       properties:
-        severaProjectGuid:
+        severaProjectId:
           type: string
           description: Id of the project
         name:
@@ -1838,7 +1837,7 @@ components:
       type: object
       description: A reference to Phase Sub Module in Resource Allocation Object
       properties:
-        severaPhaseGuid:
+        severaPhaseId:
           type: string
           description: Id of the phase
         name:
@@ -1849,7 +1848,7 @@ components:
       type: object
       description: A reference to User Sub Module in Resource Allocation Object
       properties:
-        severaUserGuid:
+        severaUserId:
           type: string
           description: Id of the user
         name:
@@ -1860,16 +1859,9 @@ components:
       type: object
       description: A reference to Project Sub Module in Resource Allocation Object
       properties:
-        severaProjectGuid:
+        severaProjectId:
           type: string
         name:
           type: string
         isInternal:
           type: boolean
-    
-
-
-            
-              
-            
-              
