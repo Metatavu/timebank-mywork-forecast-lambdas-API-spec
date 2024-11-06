@@ -751,7 +751,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
-  "/severa/projects/{severaProjectId}/phasesWithHierarchy":
+  "/severa/projects/{severaProjectId}/phases":
     get:
       operationId: getPhasesBySeveraProjectId
       summary: Get all the phases for project
@@ -813,23 +813,56 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
-  "/severa/users/{severaUserId}/workHours":
+  "/severa/workHours":
     get:
-      operationId: getWorkHoursBySeveraProjectId
-      summary: Get all the work hours for project
-      description: Retrieve all the work hours for a particular user with given ID.
+      operationId: getAllWorkHours
+      summary: Get all the work hours
+      description: Retrieve all the work hours.
       tags:
         - WorkHours
       parameters:
         - name: severaUserId
-          in: path
-          required: true
-          description: severaId of the user.
+          required: false
+          in: query
+          description: Filter work hours by users with unique severaUserId
           schema:
             type: string
+        - name: severaProjectId
+          required: false
+          in: query
+          description: Filter work hours by severaProjectId
+          schema: 
+            type: string
+        - name: severaPhaseId
+          required: false
+          in: query
+          description: Filter work hours by severaPhaseId
+          schema: 
+            type: string
+        - name: startDate
+          required: false
+          in: query
+          description: Filter work hours by startTime
+          schema: 
+            type: string
+            format: date-time 
+        - name: endDate
+          required: false
+          in: query
+          description: Filter work hours by endTime
+          schema: 
+            type: string
+            format: date-time
+        - name: eventDate
+          required: false
+          in: query
+          description: Filter work hours by eventDate
+          schema: 
+            type: string
+            format: date
       responses:
         "200":
-          description: WorkHours entry retrieved successfully
+          description: A list of all work hours
           content:
             application/json:
               schema:
@@ -842,7 +875,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Error"
-
+                  
   "/vacationRequests":
     get:
       operationId: listVacationRequests
