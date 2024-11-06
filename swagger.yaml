@@ -831,33 +831,33 @@ paths:
           required: false
           in: query
           description: Filter work hours by severaProjectId
-          schema: 
+          schema:
             type: string
         - name: severaPhaseId
           required: false
           in: query
           description: Filter work hours by severaPhaseId
-          schema: 
+          schema:
             type: string
         - name: startDate
           required: false
           in: query
           description: Filter work hours by startTime
-          schema: 
+          schema:
             type: string
-            format: date-time 
+            format: date-time
         - name: endDate
           required: false
           in: query
           description: Filter work hours by endTime
-          schema: 
+          schema:
             type: string
             format: date-time
         - name: eventDate
           required: false
           in: query
           description: Filter work hours by eventDate
-          schema: 
+          schema:
             type: string
             format: date
       responses:
@@ -875,7 +875,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Error"
-                  
+
   "/vacationRequests":
     get:
       operationId: listVacationRequests
@@ -1042,6 +1042,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+
   "/vacationRequests/{id}/statuses":
     get:
       operationId: listVacationRequestStatuses
