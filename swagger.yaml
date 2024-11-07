@@ -597,9 +597,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
 
     post:
       operationId: createQuestionnaire
@@ -626,9 +624,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
 
   "/questionnaire/{id}":
     get:
@@ -656,9 +652,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
 
     put:
       operationId: updateQuestionnaire
@@ -692,9 +686,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
 
     delete:
       operationId: deleteQuestionnaire
@@ -717,9 +709,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
 
   "/severa/{severaUserId}/flexTime":
     get:
@@ -747,9 +737,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
 
   "/severa/projects/{severaProjectId}/phases":
     get:
@@ -770,15 +758,13 @@ paths:
           description: Phases entry retrieved successfully
           content:
             application/json:
-              schema:
+              schema: 
                 $ref: "#/components/schemas/Phase"
         "default":
           description: Invalid request was sent to the server.
           content:
             application/json:
               schema:
-                type: array
-                items:
                   $ref: "#/components/schemas/Error"
 
   "/severa/{severaUserId}/resourceAllocations":
@@ -807,7 +793,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
 
   "/severa/workHours":
     get:
@@ -861,8 +847,6 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
                   $ref: "#/components/schemas/Error"
 
   "/vacationRequests":
@@ -914,8 +898,6 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
                   $ref: "#/components/schemas/Error"
     post:
       operationId: createVacationRequest
@@ -971,9 +953,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
     put:
       operationId: updateVacationRequest
       summary: Updates vacation request
@@ -1061,9 +1041,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
     post:
       operationId: createVacationRequestStatus
       summary: Post a new vacation request status
@@ -1133,9 +1111,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
     put:
       operationId: updateVacationRequestStatus
       summary: Updates vacation request status
