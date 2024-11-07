@@ -576,7 +576,7 @@ paths:
         "default":
           description: Invalid request was sent to the server.
 
-  "/questionnaire":
+  "/questionnaires":
     get:
       operationId: listQuestionnaires
       summary: List questionnaires
@@ -630,7 +630,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
-  "/questionnaire/{id}":
+  "/questionnaires/{id}":
     get:
       operationId: getQuestionnaireById
       summary: Get questionnaire by ID
