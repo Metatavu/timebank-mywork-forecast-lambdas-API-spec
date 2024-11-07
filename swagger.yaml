@@ -576,13 +576,13 @@ paths:
         "default":
           description: Invalid request was sent to the server.
 
-  "/questionnaire":
+  "/questionnaires":
     get:
       operationId: listQuestionnaires
       summary: List questionnaires
       description: Retrieve a list of all questionnaires in the registry.
       tags:
-        - Questionnaire
+        - Questionnaires
       responses:
         "200":
           description: A list of questionnaires
@@ -602,11 +602,11 @@ paths:
                   $ref: "#/components/schemas/Error"
 
     post:
-      operationId: createQuestionnaire
+      operationId: createQuestionnaires
       summary: Register new questionnaire
       description: Register a new questionnaire in the registry.
       tags:
-        - Questionnaire
+        - Questionnaires
       requestBody:
         description: Questionnaire entry to register
         required: true
@@ -630,13 +630,13 @@ paths:
                 items:
                   $ref: "#/components/schemas/Error"
 
-  "/questionnaire/{id}":
+  "/questionnaires/{id}":
     get:
-      operationId: getQuestionnaireById
+      operationId: getQuestionnairesById
       summary: Get questionnaire by ID
       description: Retrieve a questionnaire entry by its unique identifier.
       tags:
-        - Questionnaire
+        - Questionnaires
       parameters:
         - name: id
           in: path
@@ -661,11 +661,11 @@ paths:
                   $ref: "#/components/schemas/Error"
 
     put:
-      operationId: updateQuestionnaire
+      operationId: updateQuestionnaires
       summary: Update questionnaire entry
       description: Update an existing questionnaire entry in the registry.
       tags:
-        - Questionnaire
+        - Questionnaires
       parameters:
         - name: id
           in: path
@@ -697,11 +697,11 @@ paths:
                   $ref: "#/components/schemas/Error"
 
     delete:
-      operationId: deleteQuestionnaire
+      operationId: deleteQuestionnaires
       summary: Delete questionnaire entry
       description: Delete a questionnaire entry from the registry.
       tags:
-        - Questionnaire
+        - Questionnaires
       parameters:
         - name: id
           in: path
