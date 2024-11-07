@@ -1564,7 +1564,9 @@ components:
         - startDateS
         - endDate
         - type
+        - status
         - message
+        - createdBy
         - createdAt
         - updatedAt
       properties:
@@ -1594,6 +1596,8 @@ components:
           description: Vacation days used for requested vacation
         type:
           $ref: "#/components/schemas/VacationType"
+        status:
+          $ref: "#/components/schemas/VacationRequestStatuses"
         message:
           type: string
           description: Message attached to request
