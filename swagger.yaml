@@ -597,9 +597,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
 
     post:
       operationId: createQuestionnaires
@@ -626,9 +624,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
 
   "/questionnaires/{id}":
     get:
@@ -656,9 +652,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
 
     put:
       operationId: updateQuestionnaires
@@ -692,9 +686,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
 
     delete:
       operationId: deleteQuestionnaires
@@ -717,22 +709,20 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
 
-  "/severa/{severaUserId}/flextime":
+  "/severa/{severaUserId}/flexTime":
     get:
       operationId: getFlextimeBySeveraUserId
       summary: Get the flextime balance for a user.
-      description: Retrieve the flextime balances for a user based on their Severa GUID.
+      description: Retrieve the flextime balances for a user based on their SeveraUserId.
       tags:
-        - flextime
+        - FlexTime
       parameters:
         - name: severaUserId
           in: path
           required: true
-          description: severaUserId of the user.
+          description: severaId of the user.
           schema:
             type: string
       responses:
@@ -747,11 +737,119 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
+                $ref: "#/components/schemas/Error"
+
+  "/severa/projects/{severaProjectId}/phases":
+    get:
+      operationId: getPhasesBySeveraProjectId
+      summary: Get all the phases for project
+      description: Retrieve all the phases for a particular project with given ID.
+      tags:
+        - Phases
+      parameters:
+        - name: severaProjectId
+          in: path
+          required: true
+          description: ID of the project.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Phases entry retrieved successfully
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Phase"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
                   $ref: "#/components/schemas/Error"
 
-  "/vacationsRequests":
+  "/severa/{severaUserId}/resourceAllocations":
+    get:
+      operationId: getAllocationsBySeveraUserId
+      summary: Get the resource allocations for a user.
+      description: Retrieve the resource allocations for a user based on their SeveraUserId.
+      tags:
+        - ResourceAllocations
+      parameters:
+        - name: severaUserId
+          in: path
+          required: true
+          description: severaId of the user.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Resource allocations retrieved successfully
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/ResourceAllocations"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/severa/workHours":
+    get:
+      operationId: getAllWorkHours
+      summary: Get all the work hours
+      description: Retrieve all the work hours.
+      tags:
+        - WorkHours
+      parameters:
+        - name: severaUserId
+          required: false
+          in: query
+          description: Filter work hours by users with unique severaUserId
+          schema:
+            type: string
+        - name: severaProjectId
+          required: false
+          in: query
+          description: Filter work hours by severaProjectId
+          schema:
+            type: string
+        - name: severaPhaseId
+          required: false
+          in: query
+          description: Filter work hours by severaPhaseId
+          schema:
+            type: string
+        - name: startDate
+          required: false
+          in: query
+          description: Filter work hours by startTime
+          schema:
+            type: string
+            format: date-time
+        - name: endDate
+          required: false
+          in: query
+          description: Filter work hours by endTime
+          schema:
+            type: string
+            format: date-time
+      responses:
+        "200":
+          description: A list of all work hours
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkHours"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/Error"
+
+  "/vacationRequests":
     get:
       operationId: listVacationRequests
       summary: List vacation requests
@@ -787,7 +885,7 @@ paths:
           schema:
             type: boolean
       responses:
-        '200':
+        "200":
           description: List of vacation requests.
           content:
             application/json:
@@ -800,8 +898,6 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
                   $ref: "#/components/schemas/Error"
     post:
       operationId: createVacationRequest
@@ -815,14 +911,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VacationRequest'
+              $ref: "#/components/schemas/VacationRequest"
       responses:
-        '201':
+        "201":
           description: created new vacation request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VacationRequest'
+                $ref: "#/components/schemas/VacationRequest"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -830,7 +926,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/vacationsRequests/{id}":
+  "/vacationRequests/{id}":
     get:
       operationId: findVacationRequest
       summary: Finds vacation request
@@ -846,20 +942,18 @@ paths:
             type: string
             format: uuid
       responses:
-        '200':
+        "200":
           description: Found vacation request.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VacationRequest'
+                $ref: "#/components/schemas/VacationRequest"
         "default":
           description: Invalid request was sent to the server.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
     put:
       operationId: updateVacationRequest
       summary: Updates vacation request
@@ -880,14 +974,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VacationRequest'
+              $ref: "#/components/schemas/VacationRequest"
       responses:
-        '200':
+        "200":
           description: created new vacation request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VacationRequest'
+                $ref: "#/components/schemas/VacationRequest"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -917,6 +1011,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+
   "/vacationRequests/{id}/statuses":
     get:
       operationId: listVacationRequestStatuses
@@ -933,22 +1028,20 @@ paths:
             type: string
             format: uuid
       responses:
-        '200':
+        "200":
           description: List of vacation requests.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/VacationRequestStatus'
+                  $ref: "#/components/schemas/VacationRequestStatus"
         "default":
           description: Invalid request was sent to the server.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
     post:
       operationId: createVacationRequestStatus
       summary: Post a new vacation request status
@@ -969,14 +1062,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VacationRequestStatus'
+              $ref: "#/components/schemas/VacationRequestStatus"
       responses:
-        '201':
+        "201":
           description: created new vacation request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VacationRequestStatus'
+                $ref: "#/components/schemas/VacationRequestStatus"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -1007,20 +1100,18 @@ paths:
             type: string
             format: uuid
       responses:
-        '200':
+        "200":
           description: Found vacation request status.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VacationRequestStatus'
+                $ref: "#/components/schemas/VacationRequestStatus"
         "default":
           description: Invalid request was sent to the server.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
     put:
       operationId: updateVacationRequestStatus
       summary: Updates vacation request status
@@ -1048,14 +1139,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VacationRequestStatus'
+              $ref: "#/components/schemas/VacationRequestStatus"
       responses:
-        '200':
+        "200":
           description: created new vacation request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VacationRequestStatus'
+                $ref: "#/components/schemas/VacationRequestStatus"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -1436,13 +1527,10 @@ components:
           description: Unique identifier for the software entry
         name:
           type: string
-          description: Name of the software entry
+          description: Name of the software
         description:
           type: string
-          description: Description of the software entry
-        review:
-          type: string
-          description: Review of the software entry
+          description: Description of the software
         url:
           type: string
           format: uri
@@ -1450,7 +1538,7 @@ components:
         image:
           type: string
           format: uri
-          description: URL to the image of the software entry
+          description: URL to the image of the software
         status:
           $ref: "#/components/schemas/SoftwareStatus"
         createdBy:
@@ -1547,7 +1635,6 @@ components:
       description: Enum for vacation type
       enum:
         - VACATION
-
 
     VacationRequestStatuses:
       type: string
@@ -1661,3 +1748,109 @@ components:
           type: number
           format: double
           nullable: true
+
+    Phase:
+      type: object
+      properties:
+        severaPhaseId:
+          type: string
+        name:
+          type: string
+          nullable: true
+        isCompleted:
+          type: boolean
+          default: false
+        workHoursEstimate:
+          type: number
+          format: double
+        startDate:
+          type: string
+          format: date
+        deadline:
+          type: string
+          format: date
+        project:
+          $ref: "#/components/schemas/PhaseProjectSubModel"
+
+    ResourceAllocations:
+      type: object
+      properties:
+        severaProjectId:
+          type: string
+        allocationHours:
+          type: number
+          format: double
+        calculatedAllocationHours:
+          type: number
+          format: double
+        phase:
+          $ref: "#/components/schemas/PhaseSubModel"
+        user:
+          $ref: "#/components/schemas/UserSubModel"
+        project:
+          $ref: "#/components/schemas/ResourceAllocationProjectSubModel"
+
+    WorkHours:
+      type: object
+      properties:
+        severaWorkHoursId:
+          type: string
+        user:
+          $ref: "#/components/schemas/UserSubModel"
+        project:
+          $ref: "#/components/schemas/PhaseProjectSubModel"
+        phase:
+          $ref: "#/components/schemas/PhaseSubModel"
+        description:
+          type: string
+        quantity:
+          type: number
+          format: double
+          
+    PhaseProjectSubModel:
+      type: object
+      description: A reference to Project Sub Module in Phase Object
+      properties:
+        severaProjectId:
+          type: string
+          description: Id of the project
+        name:
+          type: string
+          description: Name of the project
+        isClosed:
+          type: boolean
+          default: false
+          description: Boolean value to indicate if the project has been closed or not
+
+    PhaseSubModel:
+      type: object
+      description: A reference to Phase Sub Module in Resource Allocation Object
+      properties:
+        severaPhaseId:
+          type: string
+          description: Id of the phase
+        name:
+          type: string
+          description: Name of the phase
+
+    UserSubModel:
+      type: object
+      description: A reference to User Sub Module in Resource Allocation Object
+      properties:
+        severaUserId:
+          type: string
+          description: Id of the user
+        name:
+          type: string
+          description: Name of the user
+
+    ResourceAllocationProjectSubModel:
+      type: object
+      description: A reference to Project Sub Module in Resource Allocation Object
+      properties:
+        severaProjectId:
+          type: string
+        name:
+          type: string
+        isInternal:
+          type: boolean
