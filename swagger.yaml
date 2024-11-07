@@ -1831,19 +1831,10 @@ components:
           $ref: "#/components/schemas/PhaseSubModel"
         description:
           type: string
-        eventDate:
-          type: string
-          format: date
         quantity:
           type: number
           format: double
-        startTime:
-          type: string
-          format: date-time
-        endTime:
-          type: string
-          format: date-time
-
+          
     PhaseProjectSubModel:
       type: object
       description: A reference to Project Sub Module in Phase Object
