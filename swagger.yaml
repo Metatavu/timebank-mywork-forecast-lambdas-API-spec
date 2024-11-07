@@ -853,13 +853,6 @@ paths:
           schema:
             type: string
             format: date-time
-        - name: eventDate
-          required: false
-          in: query
-          description: Filter work hours by eventDate
-          schema:
-            type: string
-            format: date
       responses:
         "200":
           description: A list of all work hours
