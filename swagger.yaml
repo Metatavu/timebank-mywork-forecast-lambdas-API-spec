@@ -801,16 +801,12 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
                   $ref: "#/components/schemas/ResourceAllocations"
         "default":
           description: Invalid request was sent to the server.
           content:
             application/json:
               schema:
-                type: array
-                items:
                   $ref: "#/components/schemas/Error"
 
   "/severa/workHours":
