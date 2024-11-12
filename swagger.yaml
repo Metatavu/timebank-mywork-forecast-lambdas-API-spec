@@ -717,7 +717,7 @@ paths:
       summary: Get the flextime balance for a user.
       description: Retrieve the flextime balances for a user based on their SeveraUserId.
       tags:
-        - Severa
+        - Flextime
       parameters:
         - name: severaUserId
           in: path
