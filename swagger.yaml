@@ -335,8 +335,7 @@ paths:
       tags:
         - Interest
       parameters:
-        - name: dealIdgit fetch origin
-git checkout feature-43-modifying-vacation-request-status
+        - name: dealId 
           schema:
             type: integer
           description: Deal Id used to identify a deal where the interest is updated
