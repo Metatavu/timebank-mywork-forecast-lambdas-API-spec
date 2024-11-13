@@ -1469,30 +1469,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/google-drive/memo-create-pdf":
-    get:
-      operationId: createMemoPdf
-      summary: Convert and upload Docs to PDF
-      description: Converts all Google Docs within the main root folder to PDF format and uploads them.
-      tags:
-        - Memo
-      responses:
-        "200":
-          description: PDFs uploaded successfully.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        "default":
-          description: Failed to upload PDFs.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-
 components:
   securitySchemes:
     bearerAuth:
