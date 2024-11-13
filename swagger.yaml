@@ -1342,9 +1342,9 @@ paths:
 
   "/google-drive/memos":
     get:
-      operationId: getMemoPdf
-      summary: List memo PDF content
-      description: Retrieves the content of PDF memos.
+      operationId: getMemos
+      summary: List memos
+      description: Retrieves the list of memos.
       tags:
         - Memo
       parameters:
@@ -1356,7 +1356,7 @@ paths:
             format: date
       responses:
         "200":
-          description: List of memo PDFs retrieved successfully.
+          description: List of memos retrieved successfully.
           content:
             application/json:
               schema:
@@ -1365,6 +1365,34 @@ paths:
                   $ref: "#/components/schemas/PdfFile"
         "default":
           description: Missing parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/google-drive/memo-content":
+    get:
+      operationId: getContentMemo
+      summary: Get memo pdf content
+      description: Retrieves pdf file content
+      tags:
+        - Memo
+      parameters:
+        - name: fileId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Memo PDF retrieved successfully
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        "default":
+          description: File not found.
           content:
             application/json:
               schema:
