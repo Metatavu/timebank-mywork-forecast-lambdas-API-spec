@@ -1613,12 +1613,12 @@ components:
       type: object
       required:
         - questionText
-        - choices
+        - answerOptions
       properties:
         questionText:
           type: string
           description: The question text
-        choices:
+        answerOptions:
           type: array
           items:
             $ref: "#/components/schemas/AnswerOption"
@@ -1632,10 +1632,10 @@ components:
       properties:
         label:
           type: string
-          description: Display text for the choice
+          description: Display text for the answer option
         isCorrect:
           type: boolean
-          description: Indicates if this choice is the correct answer
+          description: Indicates if this option is the correct answer
 
     VacationType:
       type: string
