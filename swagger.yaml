@@ -334,8 +334,11 @@ paths:
         Updates string where intrests are stored in Pipedrive
       tags:
         - Interest
-      parameters:
+      parameters:in: path
+          required: true
         - name: dealId 
+          in: path
+          required: true
           schema:
             type: integer
           description: Deal Id used to identify a deal where the interest is updated
@@ -475,12 +478,7 @@ paths:
         "200":
           description: Software entry retrieved successfully
           content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SoftwareRegistry"
-        "default":
-          description: Software entry not found
-
+            application/json:and maybe you should make "userId" required for vacationRequests
     put:
       operationId: updateSoftwareById
       summary: Update software entry
@@ -856,7 +854,7 @@ paths:
         - VacationRequests
       parameters:
         - name: userId
-          required: false
+          required: true
           in: query
           description: Filter by users unique ID
           schema:
@@ -1476,7 +1474,7 @@ components:
       required:
         - userId
         - days
-        - startDateS
+        - startDate
         - endDate
         - type
         - message
@@ -1533,7 +1531,6 @@ components:
       required:
         - status
       properties:
-        
         status:
           $ref: "#/components/schemas/VacationRequestStatuses"
         message:
@@ -1547,6 +1544,7 @@ components:
           type: string
           format: date-time
           description: Date time of status update
+
     Flextime:
       type: object
       properties:
