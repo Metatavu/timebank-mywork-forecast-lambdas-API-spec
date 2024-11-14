@@ -1509,10 +1509,14 @@ components:
           type: integer
           format: int32
           description: Vacation days used for requested vacation
-        type: array
+        type: 
           $ref: "#/components/schemas/VacationType"
+          description: type of vacation request
         status:
-          $ref: "#/components/schemas/VacationRequestStatus"
+          type: array
+          items:
+            $ref: "#/components/schemas/VacationRequestStatus"
+          description: status of vacation request
         message:
           type: string
           description: Message attached to request
