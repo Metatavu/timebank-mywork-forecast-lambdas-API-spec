@@ -335,7 +335,6 @@ paths:
       tags:
         - Interest
       parameters:in: path
-          required: true
         - name: dealId 
           in: path
           required: true
@@ -477,6 +476,10 @@ paths:
       responses:
         "200":
           description: Software entry retrieved successfully
+          schema:
+              $ref: "#/components/schemas/SoftwareRegistry"
+        "default":
+          description: Software entry not found
           content:
             application/json:and maybe you should make "userId" required for vacationRequests
     put:
@@ -1505,7 +1508,7 @@ components:
           type: integer
           format: int32
           description: Vacation days used for requested vacation
-        type:
+        type: array
           $ref: "#/components/schemas/VacationType"
         status:
           $ref: "#/components/schemas/VacationRequestStatus"
