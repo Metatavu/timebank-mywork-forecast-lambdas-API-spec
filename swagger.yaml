@@ -334,7 +334,7 @@ paths:
         Updates string where intrests are stored in Pipedrive
       tags:
         - Interest
-      parameters:in: path
+      parameters:
         - name: dealId 
           in: path
           required: true
@@ -476,12 +476,13 @@ paths:
       responses:
         "200":
           description: Software entry retrieved successfully
-          schema:
-              $ref: "#/components/schemas/SoftwareRegistry"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoftwareRegistry"
         "default":
           description: Software entry not found
-          content:
-            application/json:and maybe you should make "userId" required for vacationRequests
+          
     put:
       operationId: updateSoftwareById
       summary: Update software entry
