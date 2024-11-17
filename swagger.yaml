@@ -1225,7 +1225,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/trello/card":
+  "/trello/cards":
     get:
       operationId: listCards
       summary: Get all Trello cards on a list
@@ -1238,13 +1238,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TrelloCard"        
+                type: array
+                items:
+                  $ref: "#/components/schemas/TrelloCard"        
         "default":
           description: Failed to create card.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+
+  "/trello/card":
     post:
       operationId: createCard
       summary: Create a new Trello card
