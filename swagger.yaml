@@ -1449,9 +1449,10 @@ paths:
         "200":
           description: Translated memo content retrieved successfully.
           content:
-            application/json:
+            application/pdf:
               schema:
-                $ref: "#/components/schemas/PdfFile"
+                type: string
+                format: binary
         "default":
           description: File not found.
           content:
@@ -1489,6 +1490,7 @@ components:
         - id
         - firstName
         - lastName
+        - isActive
       properties:
         id:
           type: string
@@ -1503,36 +1505,20 @@ components:
         email:
           type: string
           description: User's email.
-        attributes:
-          type: array
-          items:
-            $ref: "#/components/schemas/Attributes"
-          description: User`s custom attributes
-
-    Attributes:
-      type: object
-      description: User`s custom attributes
-      properties:
-        severaUserId:
-          type: string
-          description: User`s ID in Severa
         isActive:
           type: boolean
           description: Defining is user is active e.g. is employed.
-        vacationDaysByYear:
-          type: array
-          items:
-            type: string
-            description: Year and vacation days in format "YYYY:DDD".
-        unspentVacationDaysByYear:
-          type: array
-          items:
-            type: string
-            description: Year and unspent vacation days in format "YYYY:DDD".
         passedQuestionnaires:
           type: array
           items:
-            type: string
+            type: integer
+        severaUserId:
+          type: string
+          description: User's ID in Severa
+        forecastId:
+          type: integer
+          format: int32
+          description: User's ID in Forecast. Used for keeping a reference of Forecast based TimeEntries and Users.
 
     Allocations:
       type: object
@@ -1866,7 +1852,7 @@ components:
       required:
         - title
         - description
-        - questions
+        - options
         - passScore
       properties:
         id:
@@ -1879,10 +1865,10 @@ components:
         description:
           type: string
           description: Description of the questionnaire
-        questions:
+        options:
           type: array
           items:
-            $ref: "#/components/schemas/Question"
+            $ref: "#/components/schemas/Questions"
           description: List of questions in the questionnaire
         tags:
           type: array
@@ -1892,40 +1878,33 @@ components:
         passedUsers:
           type: array
           items:
-            type: string
-            format: uuid
+            type: integer
           description: List of users who have passed the questionnaire
         passScore:
           type: integer
           description: Minimum score required to pass the questionnaire
 
-    Question:
+    Questions:
       type: object
-      required:
-        - questionText
-        - answerOptions
       properties:
         questionText:
           type: string
           description: The question text
-        answerOptions:
+        options:
           type: array
           items:
-            $ref: "#/components/schemas/AnswerOption"
-          description: List of answer options available for this question
+            $ref: "#/components/schemas/Options"
+          description: List of options objects containing options labels and answer status boolean
 
-    AnswerOption:
+    Options:
       type: object
-      required:
-        - label
-        - isCorrect
       properties:
         label:
           type: string
-          description: Display text for the answer option
-        isCorrect:
+          description: Display text for the option
+        value:
           type: boolean
-          description: Indicates if this option is the correct answer
+          description: Boolean value to indicate if option is correct or incorrect
 
     VacationType:
       type: string
