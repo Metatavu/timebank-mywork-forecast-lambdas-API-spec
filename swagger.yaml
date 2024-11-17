@@ -1275,8 +1275,6 @@ paths:
             application/json:
               schema:
                 type: object
-                items:
-                  $ref: "#/components/schemas/TrelloCard"
                 properties:
                   cardId:
                     type: string
