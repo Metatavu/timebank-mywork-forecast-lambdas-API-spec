@@ -1406,12 +1406,6 @@ paths:
       tags:
         - Memo
       parameters:
-        - name: date
-          in: query
-          required: true
-          schema:
-            type: string
-            format: date
         - name: fileId
           in: query
           required: true
@@ -1444,12 +1438,6 @@ paths:
       tags:
         - Memo
       parameters:
-        - name: date
-          in: query
-          required: true
-          schema:
-            type: string
-            format: date
         - name: fileId
           in: query
           required: true
