@@ -1499,7 +1499,6 @@ components:
         - id
         - firstName
         - lastName
-        - isActive
       properties:
         id:
           type: string
@@ -1514,20 +1513,36 @@ components:
         email:
           type: string
           description: User's email.
+        attributes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Attributes"
+          description: User`s custom attributes
+
+    Attributes:
+      type: object
+      description: User`s custom attributes
+      properties:
+        severaUserId:
+          type: string
+          description: User`s ID in Severa
         isActive:
           type: boolean
           description: Defining is user is active e.g. is employed.
+        vacationDaysByYear:
+          type: array
+          items:
+            type: string
+            description: Year and vacation days in format "YYYY:DDD".
+        unspentVacationDaysByYear:
+          type: array
+          items:
+            type: string
+            description: Year and unspent vacation days in format "YYYY:DDD".
         passedQuestionnaires:
           type: array
           items:
-            type: integer
-        severaUserId:
-          type: string
-          description: User's ID in Severa
-        forecastId:
-          type: integer
-          format: int32
-          description: User's ID in Forecast. Used for keeping a reference of Forecast based TimeEntries and Users.
+            type: string
 
     Allocations:
       type: object
@@ -1861,7 +1876,7 @@ components:
       required:
         - title
         - description
-        - options
+        - questions
         - passScore
       properties:
         id:
@@ -1874,10 +1889,10 @@ components:
         description:
           type: string
           description: Description of the questionnaire
-        options:
+        questions:
           type: array
           items:
-            $ref: "#/components/schemas/Questions"
+            $ref: "#/components/schemas/Question"
           description: List of questions in the questionnaire
         tags:
           type: array
@@ -1887,33 +1902,40 @@ components:
         passedUsers:
           type: array
           items:
-            type: integer
+            type: string
+            format: uuid
           description: List of users who have passed the questionnaire
         passScore:
           type: integer
           description: Minimum score required to pass the questionnaire
 
-    Questions:
+    Question:
       type: object
+      required:
+        - questionText
+        - answerOptions
       properties:
         questionText:
           type: string
           description: The question text
-        options:
+        answerOptions:
           type: array
           items:
-            $ref: "#/components/schemas/Options"
-          description: List of options objects containing options labels and answer status boolean
+            $ref: "#/components/schemas/AnswerOption"
+          description: List of answer options available for this question
 
-    Options:
+    AnswerOption:
       type: object
+      required:
+        - label
+        - isCorrect
       properties:
         label:
           type: string
-          description: Display text for the option
-        value:
+          description: Display text for the answer option
+        isCorrect:
           type: boolean
-          description: Boolean value to indicate if option is correct or incorrect
+          description: Indicates if this option is the correct answer
 
     VacationType:
       type: string
