@@ -335,7 +335,7 @@ paths:
       tags:
         - Interest
       parameters:
-        - name: dealId
+        - name: dealId 
           in: path
           required: true
           schema:
@@ -482,7 +482,7 @@ paths:
                 $ref: "#/components/schemas/SoftwareRegistry"
         "default":
           description: Software entry not found
-
+          
     put:
       operationId: updateSoftwareById
       summary: Update software entry
@@ -857,10 +857,10 @@ paths:
       tags:
         - VacationRequests
       parameters:
-        - name: personId
+        - name: userId
           required: false
           in: query
-          description: Filter by persons unique ID
+          description: Filter by users unique ID
           schema:
             type: string
             format: uuid
@@ -1011,7 +1011,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-
+                
   "/vacationRequests/{id}/statuses":
     get:
       operationId: listVacationRequestStatuses
@@ -1505,6 +1505,16 @@ components:
         email:
           type: string
           description: User's email.
+        attributes:
+          $ref: "#/components/schemas/Attributes"
+
+    Attributes:
+      type: object
+      description: User`s custom attributes
+      properties:
+        severaUserId:
+          type: string
+          description: User`s ID in Severa
         isActive:
           type: boolean
           description: Defining is user is active e.g. is employed.
@@ -1924,9 +1934,9 @@ components:
       type: object
       description: Person's single vacation request
       required:
-        - personId
+        - userId
         - days
-        - startDateS
+        - startDate
         - endDate
         - type
         - message
@@ -1938,10 +1948,10 @@ components:
           format: uuid
           description: ID of vacation request in UUID
           default: null
-        personId:
+        userId:
           type: string
           format: uuid
-          description: Person keycloak ID in UUID
+          description: User keycloak ID in UUID
         draft:
           type: boolean
           description: Draft state
@@ -1959,6 +1969,12 @@ components:
           description: Vacation days used for requested vacation
         type:
           $ref: "#/components/schemas/VacationType"
+          description: type of vacation request
+        status:
+          type: array
+          items:
+            $ref: "#/components/schemas/VacationRequestStatus"
+            description: status of vacation request
         message:
           type: string
           description: Message attached to request
@@ -1981,25 +1997,11 @@ components:
       required:
         - status
       properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of vacation request status in UUID
-          default: null
-        vacationRequestId:
-          type: string
-          format: uuid
-          description: ID of vacation request in UUID
-          default: null
         status:
           $ref: "#/components/schemas/VacationRequestStatuses"
         message:
           type: string
           description: Date of vacation start
-        createdAt:
-          type: string
-          format: date-time
-          description: Date time of status registration
         createdBy:
           type: string
           format: uuid
@@ -2008,10 +2010,6 @@ components:
           type: string
           format: date-time
           description: Date time of status update
-        updatedBy:
-          type: string
-          format: uuid
-          description: ID of person who updated status in UUID
 
     Flextime:
       type: object
