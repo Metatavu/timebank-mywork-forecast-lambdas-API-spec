@@ -858,7 +858,7 @@ paths:
         - VacationRequests
       parameters:
         - name: userId
-          required: true
+          required: false
           in: query
           description: Filter by users unique ID
           schema:
@@ -1538,7 +1538,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/VacationRequestStatus"
-          description: status of vacation request
+            description: status of vacation request
         message:
           type: string
           description: Message attached to request
