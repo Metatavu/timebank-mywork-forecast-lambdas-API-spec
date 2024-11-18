@@ -1057,10 +1057,7 @@ components:
           type: string
           description: User's email.
         attributes:
-          type: array
-          items:
-            $ref: "#/components/schemas/Attributes"
-          description: User`s custom attributes
+          $ref: "#/components/schemas/Attributes"
 
     Attributes:
       type: object
