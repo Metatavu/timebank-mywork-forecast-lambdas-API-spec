@@ -1490,7 +1490,6 @@ components:
         - id
         - firstName
         - lastName
-        - isActive
       properties:
         id:
           type: string
@@ -1518,17 +1517,20 @@ components:
         isActive:
           type: boolean
           description: Defining is user is active e.g. is employed.
+        vacationDaysByYear:
+          type: array
+          items:
+            type: string
+            description: Year and vacation days in format "YYYY:DDD".
+        unspentVacationDaysByYear:
+          type: array
+          items:
+            type: string
+            description: Year and unspent vacation days in format "YYYY:DDD".
         passedQuestionnaires:
           type: array
           items:
-            type: integer
-        severaUserId:
-          type: string
-          description: User's ID in Severa
-        forecastId:
-          type: integer
-          format: int32
-          description: User's ID in Forecast. Used for keeping a reference of Forecast based TimeEntries and Users.
+            type: string
 
     Allocations:
       type: object
