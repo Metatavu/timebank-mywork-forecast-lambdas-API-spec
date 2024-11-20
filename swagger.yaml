@@ -1530,7 +1530,7 @@ components:
         passedQuestionnaires:
           type: array
           items:
-            type: string
+            type: integer
         forecastId:
           type: integer
           format: int32
