@@ -2111,7 +2111,19 @@ components:
           type: string
           format: date
         project:
-          $ref: "#/components/schemas/PhaseProjectSubModel"
+          type: object
+          description: A reference to Project Sub Module in Phase Object
+          properties:
+            severaProjectId:
+              type: string
+              description: Id of the project
+            name:
+              type: string
+              description: Name of the project
+            isClosed:
+              type: boolean
+              default: false
+              description: Boolean value to indicate if the project has been closed or not
 
     ResourceAllocations:
       type: object
@@ -2125,11 +2137,35 @@ components:
           type: number
           format: double
         phase:
-          $ref: "#/components/schemas/PhaseSubModel"
+          type: object
+          description: A reference to Phase Sub Module in Resource Allocation Object
+          properties:
+            severaPhaseId:
+              type: string
+              description: Id of the phase
+            name:
+              type: string
+              description: Name of the phase
         user:
-          $ref: "#/components/schemas/UserSubModel"
+          type: object
+          description: A reference to User Sub Module in Resource Allocation Object
+          properties:
+            severaUserId:
+              type: string
+              description: Id of the user
+            name:
+              type: string
+              description: Name of the user
         project:
-          $ref: "#/components/schemas/ResourceAllocationProjectSubModel"
+          type: object
+          description: A reference to Project Sub Module in Resource Allocation Object
+          properties:
+            severaProjectId:
+              type: string
+            name:
+              type: string
+            isInternal:
+              type: boolean
 
     WorkHours:
       type: object
@@ -2137,61 +2173,42 @@ components:
         severaWorkHoursId:
           type: string
         user:
-          $ref: "#/components/schemas/UserSubModel"
+          type: object
+          description: A reference to User Sub Module in Resource Allocation Object
+          properties:
+            severaUserId:
+              type: string
+              description: Id of the user
+            name:
+              type: string
+              description: Name of the user        
         project:
-          $ref: "#/components/schemas/PhaseProjectSubModel"
+          type: object
+          description: A reference to Project Sub Module in Phase Object
+          properties:
+            severaProjectId:
+              type: string
+              description: Id of the project
+            name:
+              type: string
+              description: Name of the project
+            isClosed:
+              type: boolean
+              default: false
+              description: Boolean value to indicate if the project has been closed or not
         phase:
-          $ref: "#/components/schemas/PhaseSubModel"
+          type: object
+          description: A reference to Phase Sub Module in Resource Allocation Object
+          properties:
+            severaPhaseId:
+              type: string
+              description: Id of the phase
+            name:
+              type: string
+              description: Name of the phase
         description:
           type: string
         quantity:
           type: number
           format: double
           
-    PhaseProjectSubModel:
-      type: object
-      description: A reference to Project Sub Module in Phase Object
-      properties:
-        severaProjectId:
-          type: string
-          description: Id of the project
-        name:
-          type: string
-          description: Name of the project
-        isClosed:
-          type: boolean
-          default: false
-          description: Boolean value to indicate if the project has been closed or not
-
-    PhaseSubModel:
-      type: object
-      description: A reference to Phase Sub Module in Resource Allocation Object
-      properties:
-        severaPhaseId:
-          type: string
-          description: Id of the phase
-        name:
-          type: string
-          description: Name of the phase
-
-    UserSubModel:
-      type: object
-      description: A reference to User Sub Module in Resource Allocation Object
-      properties:
-        severaUserId:
-          type: string
-          description: Id of the user
-        name:
-          type: string
-          description: Name of the user
-
-    ResourceAllocationProjectSubModel:
-      type: object
-      description: A reference to Project Sub Module in Resource Allocation Object
-      properties:
-        severaProjectId:
-          type: string
-        name:
-          type: string
-        isInternal:
-          type: boolean
