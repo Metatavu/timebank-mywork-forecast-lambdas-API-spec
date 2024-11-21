@@ -711,7 +711,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/severa/users/{severaUserId}/flexTime":
+  "/severa/users/{severaUserId}/flextime":
     get:
       operationId: getFlextimeBySeveraUserId
       summary: Get the flextime balance for a user.
