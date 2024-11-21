@@ -2112,7 +2112,7 @@ components:
           format: date
         project:
           type: object
-          description: A reference to Project Sub Module in Phase Object
+          description: A reference to Project in Phase Object
           properties:
             severaProjectId:
               type: string
@@ -2138,7 +2138,7 @@ components:
           format: double
         phase:
           type: object
-          description: A reference to Phase Sub Module in Resource Allocation Object
+          description: A reference to Phase Model in Resource Allocation Object
           properties:
             severaPhaseId:
               type: string
@@ -2148,7 +2148,7 @@ components:
               description: Name of the phase
         user:
           type: object
-          description: A reference to User Sub Module in Resource Allocation Object
+          description: A reference to User Model in Resource Allocation Object
           properties:
             severaUserId:
               type: string
@@ -2158,7 +2158,7 @@ components:
               description: Name of the user
         project:
           type: object
-          description: A reference to Project Sub Module in Resource Allocation Object
+          description: A reference to Project Model in Resource Allocation Object
           properties:
             severaProjectId:
               type: string
@@ -2174,7 +2174,7 @@ components:
           type: string
         user:
           type: object
-          description: A reference to User Sub Module in Resource Allocation Object
+          description: A reference to User Model in WorkHours Object
           properties:
             severaUserId:
               type: string
@@ -2184,7 +2184,7 @@ components:
               description: Name of the user        
         project:
           type: object
-          description: A reference to Project Sub Module in Phase Object
+          description: A reference to Project Model in WorkHours Object
           properties:
             severaProjectId:
               type: string
@@ -2198,7 +2198,7 @@ components:
               description: Boolean value to indicate if the project has been closed or not
         phase:
           type: object
-          description: A reference to Phase Sub Module in Resource Allocation Object
+          description: A reference to Phase Model in WorkHours Object
           properties:
             severaPhaseId:
               type: string
