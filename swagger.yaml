@@ -2128,7 +2128,7 @@ components:
     ResourceAllocations:
       type: object
       properties:
-        severaProjectId:
+        severaResourceAllocationId:
           type: string
         allocationHours:
           type: number
