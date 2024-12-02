@@ -335,7 +335,7 @@ paths:
       tags:
         - Interest
       parameters:
-        - name: dealId
+        - name: dealId 
           in: path
           required: true
           schema:
@@ -482,7 +482,7 @@ paths:
                 $ref: "#/components/schemas/SoftwareRegistry"
         "default":
           description: Software entry not found
-
+          
     put:
       operationId: updateSoftwareById
       summary: Update software entry
@@ -711,7 +711,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/severa/{severaUserId}/flexTime":
+  "/severa/users/{severaUserId}/flextime":
     get:
       operationId: getFlextimeBySeveraUserId
       summary: Get the flextime balance for a user.
@@ -767,7 +767,7 @@ paths:
               schema:
                   $ref: "#/components/schemas/Error"
 
-  "/severa/{severaUserId}/resourceAllocations":
+  "/severa/users/{severaUserId}/resourceAllocations":
     get:
       operationId: getAllocationsBySeveraUserId
       summary: Get the resource allocations for a user.
@@ -857,10 +857,10 @@ paths:
       tags:
         - VacationRequests
       parameters:
-        - name: personId
+        - name: userId
           required: false
           in: query
-          description: Filter by persons unique ID
+          description: Filter by users unique ID
           schema:
             type: string
             format: uuid
@@ -1011,7 +1011,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-
+                
   "/vacationRequests/{id}/statuses":
     get:
       operationId: listVacationRequestStatuses
@@ -1184,6 +1184,282 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  "/trello/card-comments":
+    post:
+      operationId: createComment
+      summary: Add a comment to a Trello card
+      description: Creates a new comment on a specified Trello card.
+      tags:
+        - Trello
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cardId:
+                  type: string
+                  description: The ID of the Trello card.
+                comment:
+                  type: string
+                  description: The comment text.
+      responses:
+        "200":
+          description: Comment created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cardId:
+                    type: string
+                    description: The ID of the Trello card.
+                  comment:
+                    type: string
+                    description: The comment text.
+        "default":
+          description: Failed to create comment.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/trello/cards":
+    get:
+      operationId: listCards
+      summary: Get all Trello cards on a list
+      description: Retrieves a list of cards and their comments from a specified Trello list.
+      tags:
+        - Trello
+      responses:
+        "200":
+          description: List of Trello cards retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TrelloCard"        
+        "default":
+          description: Failed to create card.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/trello/card":
+    post:
+      operationId: createCard
+      summary: Create a new Trello card
+      description: Adds a new card to a Trello board.
+      tags:
+        - Trello
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: The title of the Trello card.
+                description:
+                  type: string
+                  description: Description of the Trello card.
+      responses:
+        "200":
+          description: Trello card created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cardId:
+                    type: string
+                  title:
+                    type: string
+                  description:
+                    type: string 
+        "default":
+          description: Failed to create card.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/trello/card/{id}":
+    delete:
+      operationId: deleteCard
+      summary: Delete a Trello card by ID
+      description: Deletes a Trello card identified by its unique ID.
+      tags:
+        - Trello
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Trello card deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "default":
+          description: Failed to fetch cards.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/trello/board-members":
+    get:
+      operationId: getBoardMembersEmails
+      summary: Get Trello board members' emails
+      description: Retrieves the email addresses of Trello board members.
+      tags:
+        - Trello
+      responses:
+        "200":
+          description: List of board members' emails retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TrelloMember"
+        "default":
+          description: Failed to fetch board members' emails.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/google-drive/memos":
+    get:
+      operationId: getMemos
+      summary: List memos
+      description: Retrieves the list of memos.
+      tags:
+        - Memo
+      parameters:
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: List of memos retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: "#/components/schemas/PdfFile"
+        "default":
+          description: Missing parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/google-drive/memo-content":
+    get:
+      operationId: getContentMemo
+      summary: Get memo pdf content
+      description: Retrieves pdf file content
+      tags:
+        - Memo
+      parameters:
+        - name: fileId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Memo PDF retrieved successfully
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        "default":
+          description: File not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/google-drive/memo-summary":
+    get:
+      operationId: getSummaryMemo
+      summary: Generate summary of a memo content
+      description: Generates a summary of a memo content.
+      tags:
+        - Memo
+      parameters:
+        - name: fileId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Memo summary generated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  en:
+                    type: string
+                  fi:
+                    type: string
+        "default":
+          description: File not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/google-drive/memo-translate":
+    get:
+      operationId: getTranslatedMemoPdf
+      summary: Get translated memo content
+      description: Retrieves the translated content of a memo PDF.
+      tags:
+        - Memo
+      parameters:
+        - name: fileId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Translated memo content retrieved successfully.
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        "default":
+          description: File not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
 components:
   securitySchemes:
     bearerAuth:
@@ -1214,7 +1490,6 @@ components:
         - id
         - firstName
         - lastName
-        - isActive
       properties:
         id:
           type: string
@@ -1229,16 +1504,33 @@ components:
         email:
           type: string
           description: User's email.
+        attributes:
+          $ref: "#/components/schemas/Attributes"
+
+    Attributes:
+      type: object
+      description: User`s custom attributes
+      properties:
+        severaUserId:
+          type: string
+          description: User`s ID in Severa
         isActive:
           type: boolean
           description: Defining is user is active e.g. is employed.
+        vacationDaysByYear:
+          type: array
+          items:
+            type: string
+            description: Year and vacation days in format "YYYY:DDD".
+        unspentVacationDaysByYear:
+          type: array
+          items:
+            type: string
+            description: Year and unspent vacation days in format "YYYY:DDD".
         passedQuestionnaires:
           type: array
           items:
-            type: integer
-        severaUserId:
-          type: string
-          description: User's ID in Severa
+            type: string
         forecastId:
           type: integer
           format: int32
@@ -1576,7 +1868,7 @@ components:
       required:
         - title
         - description
-        - options
+        - questions
         - passScore
       properties:
         id:
@@ -1589,10 +1881,10 @@ components:
         description:
           type: string
           description: Description of the questionnaire
-        options:
+        questions:
           type: array
           items:
-            $ref: "#/components/schemas/Questions"
+            $ref: "#/components/schemas/Question"
           description: List of questions in the questionnaire
         tags:
           type: array
@@ -1602,33 +1894,40 @@ components:
         passedUsers:
           type: array
           items:
-            type: integer
+            type: string
+            format: uuid
           description: List of users who have passed the questionnaire
         passScore:
           type: integer
           description: Minimum score required to pass the questionnaire
 
-    Questions:
+    Question:
       type: object
+      required:
+        - questionText
+        - answerOptions
       properties:
         questionText:
           type: string
           description: The question text
-        options:
+        answerOptions:
           type: array
           items:
-            $ref: "#/components/schemas/Options"
-          description: List of options objects containing options labels and answer status boolean
+            $ref: "#/components/schemas/AnswerOption"
+          description: List of answer options available for the question
 
-    Options:
+    AnswerOption:
       type: object
+      required:
+        - label
+        - isCorrect
       properties:
         label:
           type: string
-          description: Display text for the option
-        value:
+          description: Display text for the answer option
+        isCorrect:
           type: boolean
-          description: Boolean value to indicate if option is correct or incorrect
+          description: Indicates if this option is the correct answer
 
     VacationType:
       type: string
@@ -1648,9 +1947,9 @@ components:
       type: object
       description: Person's single vacation request
       required:
-        - personId
+        - userId
         - days
-        - startDateS
+        - startDate
         - endDate
         - type
         - message
@@ -1662,10 +1961,10 @@ components:
           format: uuid
           description: ID of vacation request in UUID
           default: null
-        personId:
+        userId:
           type: string
           format: uuid
-          description: Person keycloak ID in UUID
+          description: User keycloak ID in UUID
         draft:
           type: boolean
           description: Draft state
@@ -1683,6 +1982,12 @@ components:
           description: Vacation days used for requested vacation
         type:
           $ref: "#/components/schemas/VacationType"
+          description: type of vacation request
+        status:
+          type: array
+          items:
+            $ref: "#/components/schemas/VacationRequestStatus"
+            description: status of vacation request
         message:
           type: string
           description: Message attached to request
@@ -1705,25 +2010,11 @@ components:
       required:
         - status
       properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of vacation request status in UUID
-          default: null
-        vacationRequestId:
-          type: string
-          format: uuid
-          description: ID of vacation request in UUID
-          default: null
         status:
           $ref: "#/components/schemas/VacationRequestStatuses"
         message:
           type: string
           description: Date of vacation start
-        createdAt:
-          type: string
-          format: date-time
-          description: Date time of status registration
         createdBy:
           type: string
           format: uuid
@@ -1732,10 +2023,6 @@ components:
           type: string
           format: date-time
           description: Date time of status update
-        updatedBy:
-          type: string
-          format: uuid
-          description: ID of person who updated status in UUID
 
     Flextime:
       type: object
@@ -1748,6 +2035,60 @@ components:
           type: number
           format: double
           nullable: true
+
+    TrelloCard:
+      type: object
+      properties:
+        cardId:
+          type: string
+          description: Unique identifier for the Trello card
+        title:
+          type: string
+          description: Title of the Trello card
+        description:
+          type: string
+          description: Detailed description of the Trello card
+        assignedPersons:
+          type: array
+          items:
+            type: string
+          description: List of persons assigned to the Trello card
+        comments:
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+                description: Comment text
+              createdBy:
+                type: string
+                description: Author of the comment
+    
+    TrelloMember:
+      type: object
+      properties:
+        memberId:
+          type: string
+          description: Unique identifier for the Trello board member
+        fullName:
+          type: string
+          description: Full name of the Trello board member
+        email:
+          type: string
+          description: Email of the Trello board member
+          
+    PdfFile: 
+      type: object
+      properties:
+        id:
+          type: string
+        name: 
+          type: string
+        content:
+          type: string
+          format: byte
+          description: Base64-encoded PDF content 
 
     Phase:
       type: object
@@ -1770,12 +2111,24 @@ components:
           type: string
           format: date
         project:
-          $ref: "#/components/schemas/PhaseProjectSubModel"
+          type: object
+          description: A reference to Project in Phase Object
+          properties:
+            severaProjectId:
+              type: string
+              description: Id of the project
+            name:
+              type: string
+              description: Name of the project
+            isClosed:
+              type: boolean
+              default: false
+              description: Boolean value to indicate if the project has been closed or not
 
     ResourceAllocations:
       type: object
       properties:
-        severaProjectId:
+        severaResourceAllocationId:
           type: string
         allocationHours:
           type: number
@@ -1784,11 +2137,35 @@ components:
           type: number
           format: double
         phase:
-          $ref: "#/components/schemas/PhaseSubModel"
+          type: object
+          description: A reference to Phase Model in Resource Allocation Object
+          properties:
+            severaPhaseId:
+              type: string
+              description: Id of the phase
+            name:
+              type: string
+              description: Name of the phase
         user:
-          $ref: "#/components/schemas/UserSubModel"
+          type: object
+          description: A reference to User Model in Resource Allocation Object
+          properties:
+            severaUserId:
+              type: string
+              description: Id of the user
+            name:
+              type: string
+              description: Name of the user
         project:
-          $ref: "#/components/schemas/ResourceAllocationProjectSubModel"
+          type: object
+          description: A reference to Project Model in Resource Allocation Object
+          properties:
+            severaProjectId:
+              type: string
+            name:
+              type: string
+            isInternal:
+              type: boolean
 
     WorkHours:
       type: object
@@ -1796,61 +2173,41 @@ components:
         severaWorkHoursId:
           type: string
         user:
-          $ref: "#/components/schemas/UserSubModel"
+          type: object
+          description: A reference to User Model in WorkHours Object
+          properties:
+            severaUserId:
+              type: string
+              description: Id of the user
+            name:
+              type: string
+              description: Name of the user        
         project:
-          $ref: "#/components/schemas/PhaseProjectSubModel"
+          type: object
+          description: A reference to Project Model in WorkHours Object
+          properties:
+            severaProjectId:
+              type: string
+              description: Id of the project
+            name:
+              type: string
+              description: Name of the project
+            isClosed:
+              type: boolean
+              default: false
+              description: Boolean value to indicate if the project has been closed or not
         phase:
-          $ref: "#/components/schemas/PhaseSubModel"
+          type: object
+          description: A reference to Phase Model in WorkHours Object
+          properties:
+            severaPhaseId:
+              type: string
+              description: Id of the phase
+            name:
+              type: string
+              description: Name of the phase
         description:
           type: string
         quantity:
           type: number
           format: double
-          
-    PhaseProjectSubModel:
-      type: object
-      description: A reference to Project Sub Module in Phase Object
-      properties:
-        severaProjectId:
-          type: string
-          description: Id of the project
-        name:
-          type: string
-          description: Name of the project
-        isClosed:
-          type: boolean
-          default: false
-          description: Boolean value to indicate if the project has been closed or not
-
-    PhaseSubModel:
-      type: object
-      description: A reference to Phase Sub Module in Resource Allocation Object
-      properties:
-        severaPhaseId:
-          type: string
-          description: Id of the phase
-        name:
-          type: string
-          description: Name of the phase
-
-    UserSubModel:
-      type: object
-      description: A reference to User Sub Module in Resource Allocation Object
-      properties:
-        severaUserId:
-          type: string
-          description: Id of the user
-        name:
-          type: string
-          description: Name of the user
-
-    ResourceAllocationProjectSubModel:
-      type: object
-      description: A reference to Project Sub Module in Resource Allocation Object
-      properties:
-        severaProjectId:
-          type: string
-        name:
-          type: string
-        isInternal:
-          type: boolean
