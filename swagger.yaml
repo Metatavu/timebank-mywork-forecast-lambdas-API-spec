@@ -739,6 +739,36 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  "severa/users/{severaUserId}/keywords/isSeveraOptIn":
+    post:
+      operationId: addUserOptInKeyword
+      summary: Adds a keyword to a user on severa
+      description: Adds a keyword to a user on severa
+      tags:
+        - Users
+      parameters:
+        - name: severaUserId
+          in: path
+          required: true
+          description: User ID from severa
+          schema:
+            type: string
+            format: uuid
+    delete:
+      operationId: removeUserOptInKeyword
+      summary: Removes a keyword from a user on severa
+      description: Removes a keyword from a user on severa
+      tags:
+        - Users
+      parameters:
+        - name: severaUserId
+          in: path
+          required: true
+          description: User ID from severa
+          schema:
+            type: string
+            format: uuid
+
   "/severa/projects/{severaProjectId}/phases":
     get:
       operationId: getPhasesBySeveraProjectId
@@ -1516,7 +1546,10 @@ components:
           description: User`s ID in Severa
         isActive:
           type: boolean
-          description: Defining is user is active e.g. is employed.
+          description: Defining if user is active e.g. is employed.
+        isSeveraOptIn:
+          type: boolean
+          description: Defining whether or not to process user`s data on severa
         vacationDaysByYear:
           type: array
           items:
