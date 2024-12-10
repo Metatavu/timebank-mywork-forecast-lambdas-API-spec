@@ -2126,46 +2126,48 @@ components:
               description: Boolean value to indicate if the project has been closed or not
 
     ResourceAllocations:
-      type: object
-      properties:
-        severaResourceAllocationId:
-          type: string
-        allocationHours:
-          type: number
-          format: double
-        calculatedAllocationHours:
-          type: number
-          format: double
-        phase:
-          type: object
-          description: A reference to Phase Model in Resource Allocation Object
-          properties:
-            severaPhaseId:
-              type: string
-              description: Id of the phase
-            name:
-              type: string
-              description: Name of the phase
-        user:
-          type: object
-          description: A reference to User Model in Resource Allocation Object
-          properties:
-            severaUserId:
-              type: string
-              description: Id of the user
-            name:
-              type: string
-              description: Name of the user
-        project:
-          type: object
-          description: A reference to Project Model in Resource Allocation Object
-          properties:
-            severaProjectId:
-              type: string
-            name:
-              type: string
-            isInternal:
-              type: boolean
+      type: array
+      items:
+        type: object
+        properties:
+          severaResourceAllocationId:
+            type: string
+          allocationHours:
+            type: number
+            format: double
+          calculatedAllocationHours:
+            type: number
+            format: double
+          phase:
+            type: object
+            description: A reference to Phase Model in Resource Allocation Object
+            properties:
+              severaPhaseId:
+                type: string
+                description: Id of the phase
+              name:
+                type: string
+                description: Name of the phase
+          users:
+            type: object
+            description: A reference to User Model in Resource Allocation Object
+            properties:
+              severaUserId:
+                type: string
+                description: Id of the user
+              name:
+                type: string
+                description: Name of the user
+          projects:
+            type: object
+            description: A reference to Project Model in Resource Allocation Object
+            properties:
+              severaProjectId:
+                type: string
+              name:
+                type: string
+              isInternal:
+                type: boolean
 
     WorkHours:
       type: object
