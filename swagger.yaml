@@ -2091,39 +2091,41 @@ components:
           description: Base64-encoded PDF content 
 
     Phase:
-      type: object
-      properties:
-        severaPhaseId:
-          type: string
-        name:
-          type: string
-          nullable: true
-        isCompleted:
-          type: boolean
-          default: false
-        workHoursEstimate:
-          type: number
-          format: double
-        startDate:
-          type: string
-          format: date
-        deadline:
-          type: string
-          format: date
-        project:
-          type: object
-          description: A reference to Project in Phase Object
-          properties:
-            severaProjectId:
-              type: string
-              description: Id of the project
-            name:
-              type: string
-              description: Name of the project
-            isClosed:
-              type: boolean
-              default: false
-              description: Boolean value to indicate if the project has been closed or not
+      type: array
+      items:
+        type: object
+        properties:
+          severaPhaseId:
+            type: string
+          name:
+            type: string
+            nullable: true
+          isCompleted:
+            type: boolean
+            default: false
+          workHoursEstimate:
+            type: number
+            format: double
+          startDate:
+            type: string
+            format: date
+          deadline:
+            type: string
+            format: date
+          project:
+            type: object
+            description: A reference to Project in Phase Object
+            properties:
+              severaProjectId:
+                type: string
+                description: Id of the project
+              name:
+                type: string
+                description: Name of the project
+              isClosed:
+                type: boolean
+                default: false
+                description: Boolean value to indicate if the project has been closed or not
 
     ResourceAllocations:
       type: array
