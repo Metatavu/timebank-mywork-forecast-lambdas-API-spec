@@ -2148,7 +2148,7 @@ components:
               name:
                 type: string
                 description: Name of the phase
-          users:
+          user:
             type: object
             description: A reference to User Model in Resource Allocation Object
             properties:
@@ -2158,7 +2158,7 @@ components:
               name:
                 type: string
                 description: Name of the user
-          projects:
+          project:
             type: object
             description: A reference to Project Model in Resource Allocation Object
             properties:
