@@ -2096,6 +2096,7 @@ components:
         type: object
         properties:
           severaPhaseId:
+            format: uuid
             type: string
           name:
             type: string
@@ -2117,6 +2118,7 @@ components:
             description: A reference to Project in Phase Object
             properties:
               severaProjectId:
+                format: uuid
                 type: string
                 description: Id of the project
               name:
