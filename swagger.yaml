@@ -755,11 +755,13 @@ paths:
             type: string
       responses:
         "200":
-          description: Phases entry retrieved successfully
+          description: A list of phases retrieved successfully
           content:
             application/json:
-              schema: 
-                $ref: "#/components/schemas/Phase"
+              schema:
+                type: array
+                items: 
+                  $ref: "#/components/schemas/Phase"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -783,10 +785,12 @@ paths:
             type: string
       responses:
         "200":
-          description: Resource allocations retrieved successfully
+          description: A list of resource allocations retrieved successfully
           content:
             application/json:
               schema:
+                type: array
+                items:
                   $ref: "#/components/schemas/ResourceAllocations"
         "default":
           description: Invalid request was sent to the server.
@@ -2094,6 +2098,7 @@ components:
       type: object
       properties:
         severaPhaseId:
+          format: uuid
           type: string
         name:
           type: string
@@ -2115,6 +2120,7 @@ components:
           description: A reference to Project in Phase Object
           properties:
             severaProjectId:
+              format: uuid
               type: string
               description: Id of the project
             name:
@@ -2126,48 +2132,50 @@ components:
               description: Boolean value to indicate if the project has been closed or not
 
     ResourceAllocations:
-      type: array
-      items:
-        type: object
-        properties:
-          severaResourceAllocationId:
-            type: string
-          allocationHours:
-            type: number
-            format: double
-          calculatedAllocationHours:
-            type: number
-            format: double
-          phase:
-            type: object
-            description: A reference to Phase Model in Resource Allocation Object
-            properties:
-              severaPhaseId:
-                type: string
-                description: Id of the phase
-              name:
-                type: string
-                description: Name of the phase
-          user:
-            type: object
-            description: A reference to User Model in Resource Allocation Object
-            properties:
-              severaUserId:
-                type: string
-                description: Id of the user
-              name:
-                type: string
-                description: Name of the user
-          project:
-            type: object
-            description: A reference to Project Model in Resource Allocation Object
-            properties:
-              severaProjectId:
-                type: string
-              name:
-                type: string
-              isInternal:
-                type: boolean
+      type: object
+      properties:
+        severaResourceAllocationId:
+          format: uuid
+          type: string
+        allocationHours:
+          type: number
+          format: double
+        calculatedAllocationHours:
+          type: number
+          format: double
+        phase:
+          type: object
+          description: A reference to Phase Model in Resource Allocation Object
+          properties:
+            severaPhaseId:
+              format: uuid
+              type: string
+              description: Id of the phase
+            name:
+              type: string
+              description: Name of the phase
+        user:
+          type: object
+          description: A reference to User Model in Resource Allocation Object
+          properties:
+            severaUserId:
+              format: uuid
+              type: string
+              description: Id of the user
+            name:
+              type: string
+              description: Name of the user
+        project:
+          type: object
+          description: A reference to Project Model in Resource Allocation Object
+          properties:
+            severaProjectId:
+              format: uuid
+              type: string
+            name:
+              type: string
+            isInternal:
+              type: boolean
 
     WorkHours:
       type: object
