@@ -1852,7 +1852,7 @@ components:
         startDate:
           type: string
           format: date
-        deadline:
+        deadLine:
           type: string
           format: date
         project:
