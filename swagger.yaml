@@ -685,7 +685,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/WorkHours"
+                type: array
+                items:
+                  $ref: "#/components/schemas/WorkHours"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -1850,7 +1852,7 @@ components:
         startDate:
           type: string
           format: date
-        deadline:
+        deadLine:
           type: string
           format: date
         project:
