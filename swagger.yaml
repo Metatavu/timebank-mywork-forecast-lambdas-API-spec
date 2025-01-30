@@ -609,18 +609,18 @@ paths:
               schema:
                   $ref: "#/components/schemas/Error"
 
-  "/severa/users/{severaUserId}/resourceAllocations":
+  "/severa/resourceAllocations":
     get:
-      operationId: getAllocationsBySeveraUserId
-      summary: Get the resource allocations for a user.
-      description: Retrieve the resource allocations for a user based on their SeveraUserId.
+      operationId: getAllResourceAllocations
+      summary: Get all resource allocations
+      description: Retrieve all resource allocations
       tags:
         - ResourceAllocations
       parameters:
         - name: severaUserId
-          in: path
-          required: true
-          description: severaId of the user.
+          required: false
+          in: query
+          description: severaId of the user logged in.
           schema:
             type: string
       responses:
