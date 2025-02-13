@@ -1306,6 +1306,141 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  "/usersWithSkills":
+    get:
+      operationId: listUsersWithSkills
+      summary: List Users with skills
+      description: Lists Users with skills
+      tags:
+        - UsersWithSkills
+      responses:
+        "200":
+          description: List of users with skills.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserWithSkills"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createUserWithSkills
+      summary: Post a new User with skills
+      description: Add new User with skills
+      tags:
+        - UsersWithSkills
+      requestBody:
+        description: New User with skills
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserWithSkills"
+      responses:
+        "201":
+          description: created a new User with skills
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserWithSkills"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/usersWithSkills/{id}":
+    get:
+      operationId: findUserWithSkills
+      summary: Finds a User with skills
+      description: Finds a User with skills
+      tags:
+        - UsersWithSkills
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Id of a User with skills
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Found a User with skills.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserWithSkills"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      operationId: updateUserWithSkills
+      summary: Updates a User with skills
+      description: Update a User with skills
+      tags:
+        - UsersWithSkills
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Id of a User with skills
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Updated user with skills
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserWithSkills"
+      responses:
+        "200":
+          description: Created a new User with skills
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserWithSkills"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: deleteUserWithSkills
+      summary: Delete a User with skills.
+      description: Deletes a User with skills.
+      tags:
+        - UsersWithSkills
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Id of a User with skills
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Empty response indicating successful removal.
+        "default":
+          description: Invalid request was sent to the server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
 components:
   securitySchemes:
     bearerAuth:
@@ -1726,12 +1861,10 @@ components:
           description: Vacation days used for requested vacation
         type:
           $ref: "#/components/schemas/VacationType"
-          description: type of vacation request
         status:
           type: array
           items:
             $ref: "#/components/schemas/VacationRequestStatus"
-            description: status of vacation request
         message:
           type: string
           description: Message attached to request
@@ -1961,3 +2094,41 @@ components:
         quantity:
           type: number
           format: double
+
+    Skill:
+      type: object
+      description: A singular skill entity
+      required:
+        - name
+        - years
+        - category
+      properties:
+        name:
+          type: string
+          description: Name of the skill
+        years:
+          type: number
+          description: Number of years of experience
+        category:
+          type: string
+          description: Category of the skill
+
+    UserWithSkills:
+      type: object
+      description: A user entity with skills attribute
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of a user with skills attribute from keycloak
+          default: null
+        name:
+          type: string
+          description: Name of the user with skills attribute
+        skills:
+          type: array
+          items:
+            $ref: "#/components/schemas/Skill"
+
