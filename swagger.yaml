@@ -1393,6 +1393,9 @@ components:
       type: object
       description: User`s custom attributes
       properties:
+        iSeveraOptIn:
+            type: string
+            description: Fetches user details by email and manages the 'isSeveraOptIn' keyword, adding it if necessary.
         severaUserId:
           type: string
           description: User`s ID in Severa
