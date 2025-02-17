@@ -397,7 +397,7 @@ paths:
       summary: Update user attributes
       description: Updates a user's attributes based on the provided data.
       tags:
-        - Users
+        - attribute
       parameters:
         - name: id
           in: path
@@ -426,6 +426,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+
+  "/users/{id}/attributes/{attributeName}":
+    delete:
+      operationId: removeUserAttribute
+      summary: remove user attribute
+      description: remove a specific attribute from the user's profile
+      tags:
+        - attribute
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the user whose attribute should be deleted.
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Attribute deleted successfully
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
 
   "/users/{userId}":
     get:
@@ -1393,9 +1418,6 @@ components:
       type: object
       description: User`s custom attributes
       properties:
-        iSeveraOptIn:
-            type: string
-            description: Fetches user details by email and manages the 'isSeveraOptIn' keyword, adding it if necessary.
         severaUserId:
           type: string
           description: User`s ID in Severa
