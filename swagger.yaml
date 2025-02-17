@@ -1315,7 +1315,7 @@ paths:
         - UsersWithSkills
       responses:
         "200":
-          description: List of users with skills.
+          description: List of users with skills
           content:
             application/json:
               schema:
