@@ -391,6 +391,67 @@ paths:
         "default":
           description: Invalid request was sent to the server.
 
+  "/users/{id}":
+    put:
+      operationId: updateUserAttribute
+      summary: Update user attributes
+      description: Updates a user's attributes based on the provided data.
+      tags:
+        - attribute
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The user attributes to be updated.
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: updated user attributes
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Updateuserattribute"
+      responses:
+        "200":
+          description: User attributes retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Updateuserattribute"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/users/{id}/attributes/{attributeName}":
+    delete:
+      operationId: removeUserAttribute
+      summary: remove user attribute
+      description: remove a specific attribute from the user's profile
+      tags:
+        - attribute
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the user whose attribute should be deleted.
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Attribute deleted successfully
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+
   "/users/{userId}":
     get:
       operationId: findUser
